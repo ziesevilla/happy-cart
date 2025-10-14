@@ -42,7 +42,7 @@ function App() {
           <ToastContainer position="top-center" autoClose={3000} />
 
           {/* 🧭 Route Navigation */}
-          <main className="flex-grow-1 container mt-4">
+          <main className="flex-grow-1 mt-4">
             <Routes>
               {/* Shopper Routes */}
               <Route path="/" element={<Home />} />
