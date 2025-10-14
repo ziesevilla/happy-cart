@@ -24,8 +24,12 @@
   color: white;
 }
 
+
+/* Remove any border or shadow from main content */
 .main-content {
   min-height: 400px;
+  border-top: none;
+  box-shadow: none;
 }
 
 h1 {
