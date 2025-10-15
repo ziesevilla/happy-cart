@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Image } from "react-bootstrap";
-import "./Home.css";
+import "../styles/pages/Home.css";
+
+
 
 
 // 🖼️ Local images
