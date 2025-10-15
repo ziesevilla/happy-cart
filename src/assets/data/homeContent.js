@@ -12,6 +12,21 @@ const homeContent = {
     centerBg: heroBg,
     right: shoe2,
   },
+  // multiple hero sets for timed rotation (reuses images in different order)
+  heroSets: [
+    {
+      left: shoe1,
+      centerBg: heroBg,
+      right: shoe2,
+      centerText: "FIND YOUR PERFECT FIT",
+    },
+    {
+      left: shoe2,
+      centerBg: shoe1,
+      right: shoe1,
+      centerText: "STEP INTO COMFORT",
+    },
+  ],
   featured: [
     { id: 1, name: "Classic Sneaker", image: shoe1 },
     { id: 2, name: "Running Pro", image: shoe2 },

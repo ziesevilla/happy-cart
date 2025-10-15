@@ -69,6 +69,43 @@
   margin: 0;
 }
 
+/* layered hero transition helpers */
+.home-page .hero-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1000ms cubic-bezier(.22,.9,.32,1);
+  will-change: opacity, transform;
+}
+
+.home-page .hero-container {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+.home-page .hero-layer.visible {
+  opacity: 1;
+}
+
+/* gentle zoom-in/zoom-out effect on image layers for smoother visual transition */
+.home-page .hero-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform-origin: center center;
+  transition: transform 1000ms cubic-bezier(.22,.9,.32,1);
+  transform: scale(1.03);
+}
+
+.home-page .hero-layer.visible img {
+  transform: scale(1);
+}
+
 
 .home-page .hero-image,
 .home-page .hero-center {
@@ -102,6 +139,9 @@
   font-weight: 700;
   font-size: 2.5rem;
   margin: 0;
+  transition: opacity 1000ms cubic-bezier(.22,.9,.32,1), transform 1000ms cubic-bezier(.22,.9,.32,1);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 

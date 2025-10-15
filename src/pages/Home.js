@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Image } from "react-bootstrap";
 import "./Pages.css";
@@ -14,6 +14,37 @@ import homeContent from "../assets/data/homeContent";
 const Home = (props) => {
   // 🧩 Product data (can be overridden by props.featuredData)
   const products = props?.featuredData ?? homeContent.featured;
+
+  // Hero sets (either provided single heroData or rotate through heroSets)
+  const heroSets = props?.heroData ? [props.heroData] : homeContent.heroSets ?? [homeContent.hero];
+  const [heroIndex, setHeroIndex] = useState(0);
+  const [prevHero, setPrevHero] = useState(null);
+  const [currentVisible, setCurrentVisible] = useState(true);
+
+  // advance hero index every 5 seconds (keeps effect deps simple)
+  useEffect(() => {
+    const id = setInterval(() => {
+      setHeroIndex((i) => (i + 1) % heroSets.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, [heroSets.length]);
+
+  // when heroIndex changes, set up crossfade from previous to current
+  const prevIndexRef = React.useRef(0);
+  useEffect(() => {
+    const prevIndex = prevIndexRef.current;
+    // set prevHero for layered crossfade
+    setPrevHero(heroSets[prevIndex]);
+    // start with prev visible, then quickly show current to trigger CSS fade
+    setCurrentVisible(false);
+    const enter = setTimeout(() => setCurrentVisible(true), 20);
+    const cleanupPrev = setTimeout(() => setPrevHero(null), 900);
+    prevIndexRef.current = heroIndex;
+    return () => {
+      clearTimeout(enter);
+      clearTimeout(cleanupPrev);
+    };
+  }, [heroIndex, heroSets]);
 
 
   // 💎 Top Picks data
@@ -59,26 +90,42 @@ const Home = (props) => {
 
         {/* 🏝️ Hero Section */}
         <div className="hero-wrapper">
-          <div className="hero-image">
-            <Image src={props?.heroData?.left ?? homeContent.hero.left} alt="Shoe 1" fluid />
+          {/* left image container */}
+          <div className="hero-container">
+            <div className={`hero-layer ${currentVisible ? "visible" : ""}`}>
+              <Image src={heroSets[heroIndex].left ?? homeContent.hero.left} alt="Left" fluid />
+            </div>
+            {prevHero && (
+              <div className={`hero-layer ${!currentVisible ? "visible" : ""}`}>
+                <Image src={prevHero.left ?? homeContent.hero.left} alt="Left prev" fluid />
+              </div>
+            )}
           </div>
 
-
-          <div
-            className="hero-center"
-            style={{ backgroundImage: `url(${props?.heroData?.centerBg ?? homeContent.hero.centerBg})` }}
-          >
-            <h2>
-              FIND YOUR <br /> PERFECT FIT
-            </h2>
-            <Button variant="light" href="/products" className="mt-3">
-              Shop Now
-            </Button>
+          {/* center container */}
+          <div className="hero-container">
+            <div className={`hero-layer hero-center ${currentVisible ? "visible" : ""}`} style={{ backgroundImage: `url(${heroSets[heroIndex].centerBg ?? homeContent.hero.centerBg})` }}>
+              <h2>{heroSets[heroIndex].centerText ?? "FIND YOUR \n PERFECT FIT"}</h2>
+              <Button variant="light" href="/products" className="mt-3">Shop Now</Button>
+            </div>
+            {prevHero && (
+              <div className={`hero-layer hero-center ${!currentVisible ? "visible" : ""}`} style={{ backgroundImage: `url(${prevHero.centerBg ?? homeContent.hero.centerBg})` }}>
+                <h2>{prevHero.centerText ?? "FIND YOUR \n PERFECT FIT"}</h2>
+                <Button variant="light" href="/products" className="mt-3">Shop Now</Button>
+              </div>
+            )}
           </div>
 
-
-          <div className="hero-image">
-            <Image src={props?.heroData?.right ?? homeContent.hero.right} alt="Shoe 2" fluid />
+          {/* right image container */}
+          <div className="hero-container">
+            <div className={`hero-layer ${currentVisible ? "visible" : ""}`}>
+              <Image src={heroSets[heroIndex].right ?? homeContent.hero.right} alt="Right" fluid />
+            </div>
+            {prevHero && (
+              <div className={`hero-layer ${!currentVisible ? "visible" : ""}`}>
+                <Image src={prevHero.right ?? homeContent.hero.right} alt="Right prev" fluid />
+              </div>
+            )}
           </div>
         </div>
       </section>
