@@ -46,7 +46,7 @@ function App() {
             <Routes>
               {/* Shopper Routes */}
               <Route path="/" element={<Home />} />
-              <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/products" element={<ProductDetails />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/orders" element={<Orders />} />
