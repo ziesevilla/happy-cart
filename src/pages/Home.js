@@ -4,8 +4,6 @@ import { Button, Image } from "react-bootstrap";
 import "../styles/pages/Home.css";
 
 
-
-
 // 🖼️ Local images
 import shoe1 from "../assets/images/Pages/HeroBanner1.jpg";
 import shoe2 from "../assets/images/Pages/HeroBanner2.jpg";
