@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Image, Card } from "react-bootstrap";
+import PropTypes from "prop-types";
+import { Button, Image } from "react-bootstrap";
 import "./Pages.css";
 
 
@@ -7,16 +8,12 @@ import "./Pages.css";
 import shoe1 from "../assets/images/Pages/HeroBanner1.jpg";
 import shoe2 from "../assets/images/Pages/HeroBanner2.jpg";
 import heroBg from "../assets/images/Pages/HeroBanner3.jpg";
+import homeContent from "../assets/data/homeContent";
 
 
-const Home = () => {
-  // 🧩 Product data
-  const products = [
-    { id: 1, name: "Classic Sneaker", image: shoe1 },
-    { id: 2, name: "Running Pro", image: shoe2 },
-    { id: 3, name: "Street Style", image: shoe1 },
-    { id: 4, name: "Comfort Walk", image: shoe2 },
-  ];
+const Home = (props) => {
+  // 🧩 Product data (can be overridden by props.featuredData)
+  const products = props?.featuredData ?? homeContent.featured;
 
 
   // 💎 Top Picks data
@@ -42,44 +39,13 @@ const Home = () => {
   ];
 
 
-  // 🎁 Happy Deals data
-  const happyDeals = [
-    { id: 1, name: "Weekend Special", image: shoe1 },
-    { id: 2, name: "Limited Edition", image: shoe2 },
-    { id: 3, name: "Flash Sale", image: shoe1 },
-    { id: 4, name: "Hot Pick", image: shoe2 },
-    { id: 5, name: "Trending Now", image: shoe1 },
-    { id: 6, name: "Best Seller", image: shoe2 },
-  ];
+  // 🎁 Happy Deals data (use prop override if provided to make images dynamic)
+  const happyDeals = props?.happyDealsData ?? homeContent.happyDeals;
+
+  // we'll render the happyDeals twice for the seamless marquee and give duplicates unique ids
 
 
-  let sliderRef = null;
-
-
-  const sliderSettings = {
-    infinite: true,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2500,
-    arrows: false,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: { slidesToShow: 3 },
-      },
-      {
-        breakpoint: 768,
-        settings: { slidesToShow: 2 },
-      },
-      {
-        breakpoint: 480,
-        settings: { slidesToShow: 1 },
-      },
-    ],
-  };
-
-
+  
   return (
     <div className="home-page">
       {/* 🔸 Promo Banner */}
@@ -94,13 +60,13 @@ const Home = () => {
         {/* 🏝️ Hero Section */}
         <div className="hero-wrapper">
           <div className="hero-image">
-            <Image src={shoe1} alt="Shoe 1" fluid />
+            <Image src={props?.heroData?.left ?? homeContent.hero.left} alt="Shoe 1" fluid />
           </div>
 
 
           <div
             className="hero-center"
-            style={{ backgroundImage: `url(${heroBg})` }}
+            style={{ backgroundImage: `url(${props?.heroData?.centerBg ?? homeContent.hero.centerBg})` }}
           >
             <h2>
               FIND YOUR <br /> PERFECT FIT
@@ -112,7 +78,7 @@ const Home = () => {
 
 
           <div className="hero-image">
-            <Image src={shoe2} alt="Shoe 2" fluid />
+            <Image src={props?.heroData?.right ?? homeContent.hero.right} alt="Shoe 2" fluid />
           </div>
         </div>
       </section>
@@ -159,12 +125,47 @@ const Home = () => {
       </section>
 
 
+      {/* 🎉 Happy Deals Section */}
+      <section className="happy-deals-section">
+        <h3 className="fw-bold">Happy Deals</h3>
+        <div className="marquee" aria-hidden="false">
+          <div className="marquee-track">
+            {/* duplicate set once to create seamless infinite scroll */}
+            {[
+              ...happyDeals,
+              ...happyDeals.map((d) => ({ ...d, id: `dup-${d.id}` })),
+            ].map((deal) => (
+              <div className="deal-card" key={deal.id}>
+                <img src={deal.image} alt={deal.name} />
+                <div className="deal-overlay">
+                  <h5>{deal.name}</h5>
+                  <Button variant="light" size="sm" href="/products">
+                    Shop Now
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
     </div>
   );
 };
 
 
 export default Home;
+
+Home.propTypes = {
+  happyDealsData: PropTypes.array,
+  heroData: PropTypes.shape({
+    left: PropTypes.string,
+    centerBg: PropTypes.string,
+    right: PropTypes.string,
+  }),
+  featuredData: PropTypes.array,
+};
 
 
 
