@@ -1,10 +1,42 @@
-/* Only affects Home.js page */
+/* ================================================== */
+/* =================== GLOBAL STYLES ================= */
+/* ================================================== */
+
+
+/* Add breathing space below each section */
+.home-page section {
+  width: 100%;
+  margin-bottom: 2.5rem;
+  padding: 0 0 3rem 0; /* bottom padding only */
+  border: none;
+}
+
+
+/* General styles for the home page wrapper */
 .home-page {
   width: 100%;
   overflow-x: hidden;
 }
 
-/* Promo Banner */
+
+/* ================================================== */
+/* ================= SECTION HEADINGS =============== */
+/* ================================================== */
+
+
+.home-page section h3 {
+  text-align: left;
+  margin-bottom: 1rem; /* keeps heading close to grid or content */
+  padding-left: 1.5rem; /* adds space from the left edge */
+  font-weight: 700;
+}
+
+
+/* ================================================== */
+/* ================= PROMO BANNER =================== */
+/* ================================================== */
+
+
 .home-page .promo-banner {
   text-align: center;
   padding: 10px 0;
@@ -13,30 +45,49 @@
   margin: 0;
 }
 
-/* Hero Section */
+
+.home-page .promo-code {
+  color: #ffde59;
+}
+
+
+.home-page .promo-subtext {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+
+/* ================================================== */
+/* ================= HERO SECTION =================== */
+/* ================================================== */
+
+
 .home-page .hero-wrapper {
   display: flex;
-  width: 100vw; /* full viewport width */
+  width: 100vw;
   height: 550px;
   margin: 0;
 }
+
 
 .home-page .hero-image,
 .home-page .hero-center {
   flex: 1;
 }
 
+
 .home-page .hero-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block; /* removes gaps around images */
+  display: block;
 }
 
-/* Middle section with background */
+
 .home-page .hero-center {
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   color: white;
   display: flex;
   flex-direction: column;
@@ -44,8 +95,8 @@
   align-items: center;
   text-align: center;
   text-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
-  background-repeat: no-repeat;
 }
+
 
 .home-page .hero-center h2 {
   font-weight: 700;
@@ -53,36 +104,31 @@
   margin: 0;
 }
 
-/* Featured Section */
-.home-page .featured-section {
-  padding: 80px 20px;
-}
 
-/* ------------------------- */
-/* 🆕 Featured Products Grid */
-/* ------------------------- */
+/* ================================================== */
+/* ================= FEATURED PRODUCTS GRID ========= */
+/* ================================================== */
+
+
 .home-page .product-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
   gap: 0;
-  padding: 3rem 0;
+  padding: 0 0 3rem 0; /* bottom padding only */
   width: 100vw;
   margin: 0;
 }
 
-.home-page .product-card {
+
+.home-page .product-tile {
   position: relative;
-  border: none;
   overflow: hidden;
-  border-radius: 0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   width: 100%;
-  aspect-ratio: 1 / 1;
-  transition: none;
+  aspect-ratio: 5 / 2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 0;
 }
-
 
 
 .home-page .card-image-overlay {
@@ -91,11 +137,14 @@
   height: 100%;
 }
 
+
 .home-page .card-image-overlay img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
+
 
 .home-page .overlay-text {
   position: absolute;
@@ -104,6 +153,7 @@
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   color: white;
@@ -113,9 +163,11 @@
   text-align: center;
 }
 
-.home-page .product-card:hover .overlay-text {
+
+.home-page .product-tile:hover .overlay-text {
   opacity: 1;
 }
+
 
 .home-page .overlay-text h5 {
   font-size: 1.3rem;
@@ -124,34 +176,144 @@
   margin-bottom: 16px;
 }
 
-/* Responsive Layout */
+
+/* ================================================== */
+/* ================= TOP PICKS SECTION ============= */
+/* ================================================== */
+
+
+.home-page .top-picks-row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  margin: 0;
+  gap: 0;
+  flex-wrap: nowrap;
+  position: relative;
+}
+
+
+.home-page .top-pick-card {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0.3s ease;
+  z-index: 1;
+}
+
+
+.home-page .top-pick-card img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+
+.home-page .top-pick-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+
+.home-page .top-pick-card:hover {
+  transform: scale(1.05);
+  z-index: 5;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+
+.home-page .top-pick-card:hover img {
+  filter: brightness(70%);
+  transform: scale(1.05);
+}
+
+
+.home-page .top-pick-card:hover .top-pick-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+.home-page .top-pick-overlay h5 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+
+.home-page .top-pick-overlay p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  max-width: 300px;
+}
+
+
+/* ================================================== */
+/* ================= RESPONSIVE STYLES ============= */
+/* ================================================== */
+
+
 @media (max-width: 768px) {
   .home-page .hero-wrapper {
     flex-direction: column;
     height: auto;
   }
 
+
   .home-page .hero-image img {
     height: 250px;
   }
+
 
   .home-page .hero-center {
     height: 300px;
   }
 
+
   .home-page .hero-center h2 {
     font-size: 1.8rem;
   }
 
-  /* Responsive product grid */
+
   .home-page .product-grid {
     grid-template-columns: 1fr;
-    grid-template-rows: auto;
+  }
+
+
+  .home-page .top-picks-row {
+    flex-direction: column;
+  }
+
+
+  .home-page .top-pick-card img {
+    height: 300px;
   }
 }
 
+
 @media (max-width: 480px) {
-  .home-page .product-grid {
-    grid-template-columns: 1fr;
+  .home-page .overlay-text h5 {
+    font-size: 1rem;
   }
 }
+
+
+
