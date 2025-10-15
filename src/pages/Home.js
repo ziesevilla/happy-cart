@@ -73,6 +73,18 @@ const Home = (props) => {
   // 🎁 Happy Deals data (use prop override if provided to make images dynamic)
   const happyDeals = props?.happyDealsData ?? homeContent.happyDeals;
 
+  // Promo messages (rotate through them) - can be overridden via props.promoData
+  const promos = props?.promoData ?? homeContent.promoMessages ?? [
+    { title: "NEW MEMBERS ENJOY 15% OFF ON HAPPY CART", code: "HAPPY15", subtext: "Sign up now!" },
+  ];
+  const [promoIndex, setPromoIndex] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setPromoIndex((i) => (i + 1) % promos.length);
+    }, 4000);
+    return () => clearInterval(id);
+  }, [promos.length]);
+
   // we'll render the happyDeals twice for the seamless marquee and give duplicates unique ids
 
 
@@ -82,9 +94,9 @@ const Home = (props) => {
       {/* 🔸 Promo Banner */}
       <section>
         <div className="promo-banner">
-          NEW MEMBERS ENJOY 15% OFF ON HAPPY CART &nbsp; | &nbsp; USE CODE:{" "}
-          <span className="promo-code">HAPPY15</span>
-          <div className="promo-subtext">Sign up now!</div>
+          {promos[promoIndex].title} &nbsp; | &nbsp; USE CODE: {" "}
+          <span className="promo-code">{promos[promoIndex].code}</span>
+          <div className="promo-subtext">{promos[promoIndex].subtext}</div>
         </div>
 
 
@@ -212,6 +224,7 @@ Home.propTypes = {
     right: PropTypes.string,
   }),
   featuredData: PropTypes.array,
+  promoData: PropTypes.array,
 };
 
 

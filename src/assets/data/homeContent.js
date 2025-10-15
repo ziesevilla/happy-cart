@@ -38,6 +38,12 @@ const homeContent = {
     { id: 2, name: "Limited Edition", image: shoe2 },
     { id: 3, name: "Flash Sale", image: shoe3 },
   ],
+  // rotating promo messages for the promo banner
+  promoMessages: [
+    { title: "NEW MEMBERS ENJOY 15% OFF ON HAPPY CART", code: "HAPPY15", subtext: "Sign up now!" },
+    { title: "FREE SHIPPING ON ORDERS OVER $50", code: "FREESHIP", subtext: "Limited time" },
+    { title: "WEEKEND DEALS: EXTRA 10% OFF", code: "WEEKEND10", subtext: "Shop today" },
+  ],
 };
 
 export default homeContent;
