@@ -89,9 +89,6 @@ const ProductCard = ({ product, onClose }) => {
           </div>
         </div>
 
-        <Button variant="secondary" className="close-btn" onClick={onClose}>
-          Close
-        </Button>
       </div>
     </div>
   );
