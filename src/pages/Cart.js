@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./../styles/pages/Cart.css";
 import cartContent from "../assets/data/cartContent";
 
@@ -17,6 +18,13 @@ function Cart() {
       )
     );
   };
+
+  const navigate = useNavigate();
+
+const handleCheckout = () => {
+  navigate("/checkout");
+};
+
 
   // ✅ Checkbox Toggle
   const toggleSelect = (id) => {
@@ -118,7 +126,10 @@ function Cart() {
             <h2>₱{subtotal.toLocaleString()}</h2>
           </div>
 
-          <button className="checkout-btn">PROCEED TO CHECK OUT</button>
+          <button className="checkout-btn" onClick={handleCheckout}>
+  PROCEED TO CHECK OUT
+</button>
+
         </aside>
       </div>
     </div>
