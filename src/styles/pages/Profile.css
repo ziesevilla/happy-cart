@@ -1,0 +1,99 @@
+/* src/styles/Profile.css */
+
+.profile-container {
+  background-color: #ffc0cb;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 80%;
+  margin: 2rem auto;
+  font-family: Arial, sans-serif;
+}
+
+.profile-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: white;
+  margin-right: 1.5rem;
+}
+
+.profile-summary h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.profile-summary p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  background: #ffb6c1;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+}
+
+.profile-form label {
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.profile-form input {
+  margin-top: 0.3rem;
+  padding: 0.6rem;
+  border-radius: 0.3rem;
+  border: none;
+  background: #ffd6dd;
+}
+
+.profile-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.edit-btn,
+.update-btn {
+  background-color: #ff99aa;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 0.3rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.edit-btn:hover,
+.update-btn:hover {
+  background-color: #ff7b93;
+}
+
+.profile-links {
+  margin-top: 1.5rem;
+  border-top: 1px solid #f28ea7;
+  padding-top: 1rem;
+}
+
+.profile-links h4 {
+  margin: 0.8rem 0;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.profile-links h4:hover {
+  text-decoration: underline;
+}
