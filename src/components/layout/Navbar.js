@@ -1,65 +1,38 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-import { FaShoppingCart, FaUser } from "react-icons/fa";
+import "../../styles/component/Navbar.css";
+import logo from "../../assets/images/happy-cart.png";
+import { FaUser, FaHeart, FaShoppingCart, FaSearch } from "react-icons/fa";
 
-function AppNavbar() {
+const Navbar = () => {
   return (
-    <Navbar bg="primary" variant="dark" expand="lg" sticky="top">
-      <Container>
-        {/* Logo / Brand */}
-        <Navbar.Brand as={Link} to="/">
-          ShopWave 🌊
-        </Navbar.Brand>
+    <nav className="navbar">
+      {/* Left Side - Logo and Brand */}
+      <div className="navbar-left">
+        <img src={logo} alt="Happy Cart Logo" className="navbar-logo" />
+        <h1 className="navbar-title">HAPPY CART</h1>
+      </div>
 
-        <Navbar.Toggle aria-controls="main-navbar" />
-        <Navbar.Collapse id="main-navbar">
-          <Nav className="ms-auto">
-            {/* Shopper Links */}
-            <Nav.Link as={NavLink} to="/" end>
-              Home
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/products">
-              Products
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/cart">
-              <FaShoppingCart className="me-1" /> Cart
-            </Nav.Link>
+      {/* Middle Links */}
+      <ul className="navbar-links">
+        <li><a href="#">New & Featured</a></li>
+        <li><a href="#">Men</a></li>
+        <li><a href="#">Woman</a></li>
+        <li><a href="#">Kids</a></li>
+        <li><a href="#">Sale</a></li>
+      </ul>
 
-            {/* Account Dropdown */}
-            <NavDropdown title={<FaUser />} id="user-dropdown" align="end">
-              <NavDropdown.Item as={NavLink} to="/login">
-                Login
-              </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/register">
-                Sign Up
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item as={NavLink} to="/profile">
-                Profile
-              </NavDropdown.Item>
-            </NavDropdown>
-
-            {/* Admin Dropdown */}
-            <NavDropdown title="Admin" id="admin-dropdown" align="end">
-              <NavDropdown.Item as={NavLink} to="/admin/dashboard">
-                Dashboard
-              </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/admin/products">
-                Manage Products
-              </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/admin/orders">
-                Manage Orders
-              </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/admin/users">
-                Manage Users
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+      {/* Right Side - Search and Icons */}
+      <div className="navbar-right">
+        <div className="search-container">
+          <input type="text" placeholder="Search" />
+          <FaSearch className="search-icon" />
+        </div>
+        <FaUser className="nav-icon" />
+        <FaHeart className="nav-icon" />
+        <FaShoppingCart className="nav-icon" />
+      </div>
+    </nav>
   );
-}
+};
 
-export default AppNavbar;
+export default Navbar;
