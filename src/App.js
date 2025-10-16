@@ -19,6 +19,8 @@ import Signup from "./pages/auth/Signup";
 import ResetPassword from "./pages/auth/ResetPassword";
 import Profile from "./pages/Profile";
 import Orders from "./pages/Orders";
+import SavedAddresses from "./pages/SavedAddresses";
+
 
 // ⚙️ Admin Pages
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -51,6 +53,8 @@ function App() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/savedaddresses" element={<SavedAddresses />} />
+
 
               {/* Authentication Routes */}
               <Route path="/login" element={<Login />} />
