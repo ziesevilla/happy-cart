@@ -90,7 +90,7 @@ function Profile() {
 
       <div className="profile-links">
         <h4 onClick={() => navigate("/orders")}>My Orders</h4>
-        <h4 onClick={() => navigate("/addresses")}>Saved Addresses</h4>
+        <h4 onClick={() => navigate("/savedaddresses")}>Saved Addresses</h4>
       </div>
     </div>
   );
