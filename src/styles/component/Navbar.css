@@ -1,0 +1,103 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #faeedb;
+  padding: 20px 50px; /* Taller navbar */
+  font-family: "Garet", sans-serif;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* ==== Left Section ==== */
+.navbar-left {
+  display: flex;
+  align-items: center; /* ensures logo and text line up vertically */
+  gap: 0px; /* no gap between the logo and the text */
+}
+
+.navbar-logo {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  top: -3px;
+}
+
+.navbar-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #000;
+  margin: 0;               /* remove extra space */
+  line-height: 1;          /* tighter vertical alignment */
+  display: flex;
+  align-items: center;     /* centers text vertically with the logo */
+}
+
+
+/* ==== Middle Links ==== */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 40px; /* space between links */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 600;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+  color: #e85d75;
+}
+
+/* ==== Right Section ==== */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+/* Search bar styling */
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #f7bfbf;
+  padding: 10px 14px; /* Taller and thicker */
+  border-radius: 50px;
+  width: 400px;
+  height: 45px; /* taller search bar */
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.search-container input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 15px;
+  color: #000;
+}
+
+.search-icon {
+  font-size: 20px;
+  color: #000;
+  cursor: pointer;
+}
+
+/* Icons styling */
+.nav-icon {
+  font-size: 28px; /* larger for visibility */
+  color: #000;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.nav-icon:hover {
+  color: #e85d75;
+}
