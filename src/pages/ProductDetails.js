@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./../styles/pages/ProductDetails.css";
 import productContent from "../assets/data/productContent";
+import ProductCard from "../pages/ProductCard.js"; // floating modal component
 
 function ProductDetails() {
   // Hero logic
@@ -21,6 +22,9 @@ function ProductDetails() {
   const [selectedPrice, setSelectedPrice] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(productContent.products);
   const [searchTerm, setSearchTerm] = useState("");
+
+  // State for modal
+  const [activeProduct, setActiveProduct] = useState(null);
 
   // Toggle categories
   const toggleCategory = (category) => {
@@ -90,7 +94,6 @@ function ProductDetails() {
           </div>
         ))}
       </div>
-      
 
       {/* Content area */}
       <div className="content-area">
@@ -152,7 +155,12 @@ function ProductDetails() {
           ) : (
             <div className="product-grid">
               {filteredProducts.map((p) => (
-                <div key={p.id} className="product-card">
+                <div
+                  key={p.id}
+                  className="product-card"
+                  onClick={() => setActiveProduct(p)}
+                  style={{ cursor: "pointer" }}
+                >
                   <img src={p.image} alt={p.name} />
                   <h5>{p.name}</h5>
                   <p>₱{p.price}</p>
@@ -162,6 +170,14 @@ function ProductDetails() {
           )}
         </section>
       </div>
+
+      {/* Product Card */}
+      {activeProduct && (
+        <ProductCard
+          product={activeProduct}
+          onClose={() => setActiveProduct(null)}
+        />
+      )}
     </div>
   );
 }

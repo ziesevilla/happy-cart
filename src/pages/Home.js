@@ -47,32 +47,10 @@ const Home = (props) => {
   }, [heroIndex, heroSets]);
 
 
-  // 💎 Top Picks data
-  const topPicks = [
-    {
-      id: 1,
-      name: "Urban Explorer",
-      description: "Designed for comfort and confidence in every step.",
-      image: shoe1,
-    },
-    {
-      id: 2,
-      name: "Trail Master",
-      description: "Built tough for adventure seekers on any terrain.",
-      image: shoe2,
-    },
-    {
-      id: 3,
-      name: "City Glide",
-      description: "Sleek, modern, and made for fast-paced living.",
-      image: heroBg,
-    },
-  ];
-
-
+  // 💎 Top Picks data (use prop override if provided)
+  const topPicks = props?.topPicksData ?? homeContent.topPicks;
   // 🎁 Happy Deals data (use prop override if provided to make images dynamic)
   const happyDeals = props?.happyDealsData ?? homeContent.happyDeals;
-
   // Promo messages (rotate through them) - can be overridden via props.promoData
   const promos = props?.promoData ?? homeContent.promoMessages ?? [
     { title: "NEW MEMBERS ENJOY 15% OFF ON HAPPY CART", code: "HAPPY15", subtext: "Sign up now!" },
