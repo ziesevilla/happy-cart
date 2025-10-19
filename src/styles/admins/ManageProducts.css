@@ -1,0 +1,201 @@
+/* ===== Layout ===== */
+.manage-products-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #fff6f2;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===== Main Content ===== */
+.manage-products-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-left: 250px; /* Adjust to Sidebar width */
+}
+
+/* ===== Header ===== */
+.manage-header {
+  background-color: #ffdfe0;
+  text-align: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #f3b7b7;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.header-logo img {
+  width: 40px;
+  height: 40px;
+}
+
+.header-logo h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+}
+
+/* ===== Module Header ===== */
+.module-header {
+  background-color: #fcaea9;
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  font-weight: bold;
+  color: #222;
+  font-size: 18px;
+}
+
+.module-header .menu-icon {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+/* ===== Search & Add Section ===== */
+.search-add-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background-color: #fff;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f2f2f2;
+  padding: 8px 12px;
+  border-radius: 5px;
+  width: 60%;
+}
+
+.search-icon {
+  color: #555;
+  margin-right: 8px;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  font-size: 14px;
+}
+
+.add-btn {
+  background-color: #3dd9ac;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-btn:hover {
+  background-color: #2cc197;
+}
+
+/* ===== Product Table ===== */
+.product-table {
+  background-color: #fff;
+  margin: 0 20px 30px 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1.5fr 1fr 2fr;
+  background-color: #eaeaea;
+  padding: 12px 20px;
+  font-weight: 600;
+}
+
+.product-row {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1.5fr 1fr 2fr;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 12px 20px;
+  transition: background 0.2s ease;
+}
+
+.product-row:hover {
+  background-color: #fff8f5;
+}
+
+/* ===== Image Column ===== */
+.product-image img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+/* ===== Product Info ===== */
+.product-name {
+  font-weight: 600;
+}
+
+.product-category {
+  color: #555;
+}
+
+.product-price {
+  font-weight: 500;
+}
+
+/* ===== Stock & Actions ===== */
+.product-stock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stock-in {
+  color: green;
+  font-weight: 600;
+}
+
+.stock-out {
+  color: red;
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+  border: none;
+  background: none;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.edit-btn {
+  color: #1976d2;
+}
+
+.delete-btn {
+  color: #d32f2f;
+}
+
+/* ===== Empty State ===== */
+.no-results {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}

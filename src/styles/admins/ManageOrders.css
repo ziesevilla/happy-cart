@@ -1,0 +1,176 @@
+/* ===== Layout Wrapper ===== */
+.admin-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #fdf7f3; /* Soft beige background */
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ===== Main Content Area (beside sidebar) ===== */
+.orders-main {
+  flex: 1;
+  padding: 25px 40px;
+  margin-left: 250px; /* Adjust this width to match your Sidebar width */
+  transition: margin-left 0.3s ease;
+}
+
+/* ===== Header ===== */
+.orders-header {
+  background-color: #f7bfc0; /* Soft pink */
+  border-radius: 10px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-icon {
+  font-size: 1.3rem;
+  color: #111;
+}
+
+.orders-header h2 {
+  font-weight: 600;
+  color: #111;
+  font-size: 1.3rem;
+}
+
+/* ===== Search & Filter Bar ===== */
+.search-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #e6e6e6;
+  border-radius: 10px;
+  padding: 8px 12px;
+  width: 75%;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  margin-left: 8px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.search-icon {
+  color: #555;
+}
+
+.filter-btn {
+  background-color: #f7bfc0;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-weight: 500;
+  color: #222;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background-color: #f4a5a8;
+}
+
+.filter-icon {
+  font-size: 0.9rem;
+}
+
+/* ===== Orders Table ===== */
+.orders-table {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.orders-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table th {
+  text-align: left;
+  padding: 12px 10px;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+  border-bottom: 2px solid #eee;
+}
+
+.orders-table td {
+  padding: 10px;
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+/* ===== Status Styles ===== */
+.status {
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.status.pending {
+  background-color: #f1f1f1;
+  color: #555;
+}
+
+.status.shipped {
+  background-color: #e0f7f7;
+  color: #007b7b;
+}
+
+.status.delivered {
+  background-color: #f0f0f0;
+  color: #222;
+}
+
+/* ===== Payment Styles ===== */
+.payment {
+  font-weight: 600;
+}
+
+.payment.unpaid {
+  color: #d9534f;
+}
+
+.payment.paid {
+  color: #007bff;
+}
+
+.payment.cod {
+  color: #e19e00;
+}
+
+/* ===== Action Link ===== */
+.view-link {
+  color: #111;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.view-link:hover {
+  text-decoration: underline;
+}
