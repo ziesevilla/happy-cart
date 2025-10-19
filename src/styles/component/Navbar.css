@@ -1,77 +1,99 @@
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #faeedb;
-  padding: 20px 50px; /* Taller navbar */
+  padding: 20px 50px;
   font-family: "Garet", sans-serif;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-/* ==== Left Section ==== */
+/* LEFT */
 .navbar-left {
   display: flex;
-  align-items: center; /* ensures logo and text line up vertically */
-  gap: 0px; /* no gap between the logo and the text */
+  align-items: center;
+  gap: 0px;
 }
 
 .navbar-logo {
   height: 50px;
-  width: auto;
   object-fit: contain;
-  display: block;
-  top: -3px;
 }
 
 .navbar-title {
   font-size: 22px;
   font-weight: 700;
+  margin: 0;
   color: #000;
-  margin: 0;               /* remove extra space */
-  line-height: 1;          /* tighter vertical alignment */
-  display: flex;
-  align-items: center;     /* centers text vertically with the logo */
 }
 
-
-/* ==== Middle Links ==== */
+/* MIDDLE LINKS */
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 40px; /* space between links */
+  gap: 40px;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .navbar-links a {
+  position: relative;
   text-decoration: none;
   color: #000;
   font-weight: 600;
   font-size: 16px;
+  padding-bottom: 3px;
   transition: color 0.3s ease;
 }
 
+.navbar-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #e85d75;
+  transition: width 0.3s ease;
+}
+
+/* Hover Effect for Inactive Links */
 .navbar-links a:hover {
   color: #e85d75;
 }
 
-/* ==== Right Section ==== */
+.navbar-links a:hover::after {
+  width: 100%;
+}
+
+/* ACTIVE LINK — stays pink, no underline */
+.active-link {
+  color: #e85d75 !important;
+}
+
+.active-link::after {
+  width: 0 !important;
+}
+
+/* RIGHT */
 .navbar-right {
   display: flex;
   align-items: center;
   gap: 22px;
 }
 
-/* Search bar styling */
 .search-container {
   display: flex;
   align-items: center;
   background-color: #f7bfbf;
-  padding: 10px 14px; /* Taller and thicker */
+  padding: 10px 14px;
   border-radius: 50px;
   width: 400px;
-  height: 45px; /* taller search bar */
+  height: 45px;
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
@@ -86,13 +108,11 @@
 
 .search-icon {
   font-size: 20px;
-  color: #000;
   cursor: pointer;
 }
 
-/* Icons styling */
 .nav-icon {
-  font-size: 28px; /* larger for visibility */
+  font-size: 28px;
   color: #000;
   cursor: pointer;
   transition: color 0.3s ease;
