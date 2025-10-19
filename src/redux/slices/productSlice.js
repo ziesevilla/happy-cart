@@ -1,32 +1,35 @@
-import { createSlice } from "@reduxjs/toolkit";
+// src/redux/slices/productSlice.js
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { featuredItems } from "../../assets/data/homeContent";
 
-const initialState = {
-  products: [],
-  loading: false,
-  error: null,
-};
+// Example async thunk (if fetching products from API)
+export const fetchProducts = createAsyncThunk("products/fetch", async () => {
+  // You can replace this with a fetch() or axios call later
+  return featuredItems;
+});
 
 const productSlice = createSlice({
-  name: "product",
-  initialState,
-  reducers: {
-    fetchProductsStart: (state) => {
-      state.loading = true;
-    },
-    fetchProductsSuccess: (state, action) => {
-      state.loading = false;
-      state.products = action.payload;
-    },
-    fetchProductsFailure: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
+  name: "products",
+  initialState: {
+    products: [],
+    status: "idle", // idle | loading | succeeded | failed
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProducts.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.products = action.payload;
+      })
+      .addCase(fetchProducts.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
   },
 });
 
-export const {
-  fetchProductsStart,
-  fetchProductsSuccess,
-  fetchProductsFailure,
-} = productSlice.actions;
 export default productSlice.reducer;
