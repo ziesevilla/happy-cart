@@ -42,6 +42,9 @@ function AppNavbar() {
 
             {/* Admin Dropdown */}
             <NavDropdown title="Admin" id="admin-dropdown" align="end">
+              <NavDropdown.Item as={NavLink} to="/admin/login">
+                Admin Login
+              </NavDropdown.Item>
               <NavDropdown.Item as={NavLink} to="/admin/dashboard">
                 Dashboard
               </NavDropdown.Item>
