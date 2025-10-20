@@ -10,17 +10,17 @@ import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 
 // 🛍️ Shopper Pages
-import Home from "./pages/Home";
-import ProductDetails from "./pages/ProductDetails";
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
+import Home from "./pages/home/Home";
+import ProductDetails from "./pages/product/ProductCatalog";
+import Cart from "./pages/cart/Cart";
+import Checkout from "./pages/cart/Checkout";
+import OrderConfirmation from "./pages/cart/OrderConfirmation"; // ✅ ADDED
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import ResetPassword from "./pages/auth/ResetPassword";
-import Profile from "./pages/Profile";
-import Orders from "./pages/Orders";
-import SavedAddresses from "./pages/SavedAddresses";
-
+import Profile from "./pages/user/Profile";
+import Orders from "./pages/user/Orders";
+import SavedAddresses from "./pages/user/SavedAddresses";
 
 // ⚙️ Admin Pages
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -51,10 +51,10 @@ function App() {
               <Route path="/products" element={<ProductDetails />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/order-confirmation" element={<OrderConfirmation />} /> {/* ✅ ADDED */}
               <Route path="/orders" element={<Orders />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/savedaddresses" element={<SavedAddresses />} />
-
 
               {/* Authentication Routes */}
               <Route path="/login" element={<Login />} />
