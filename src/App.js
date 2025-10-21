@@ -19,8 +19,6 @@ import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import ResetPassword from "./pages/auth/ResetPassword";
 import Profile from "./pages/user/Profile";
-import Orders from "./pages/user/Orders";
-import SavedAddresses from "./pages/user/SavedAddresses";
 
 // ⚙️ Admin Pages
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -52,9 +50,7 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/order-confirmation" element={<OrderConfirmation />} /> {/* ✅ ADDED */}
-              <Route path="/orders" element={<Orders />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/savedaddresses" element={<SavedAddresses />} />
 
               {/* Authentication Routes */}
               <Route path="/login" element={<Login />} />
