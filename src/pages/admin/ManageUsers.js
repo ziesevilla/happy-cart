@@ -1,68 +1,67 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/admins/ManageUsers.css";
 import Sidebar from "../../assets/Sidebar";
-import { FaBars } from "react-icons/fa"; // ✅ Added import for FaBars
-import happyCartLogo from "../../assets/images/happy-cart.png";
+import { FaBars } from "react-icons/fa";
 
-const ManageCustomers = () => {
-  const [customers, setCustomers] = useState([]);
+const ManageUsers = () => {
+  const [users, setUsers] = useState([]);
+  const [showAddUserPopup, setShowAddUserPopup] = useState(false);
+  const [newUser, setNewUser] = useState({ name: "", email: "", password: "" });
 
-  // ===== Fetch Users from Backend (Ready for API Integration) =====
+  // ===== Fetch Users (Mock Data - Ready for API) =====
   useEffect(() => {
-    const fetchCustomers = async () => {
+    const fetchUsers = async () => {
       try {
-        // Replace with your backend endpoint when ready
-        // const response = await axios.get("/api/customers");
-        // setCustomers(response.data);
-        setCustomers([
+        setUsers([
           { id: 1, name: "Zyra Batumbakal", email: "zyra@example.com" },
           { id: 2, name: "Raziel Maiyahin", email: "raziel@example.com" },
           { id: 3, name: "Jericho Barnes", email: "jericho@example.com" },
           { id: 4, name: "Michael Mikel", email: "michael@example.com" },
         ]);
       } catch (error) {
-        console.error("Error fetching customers:", error);
+        console.error("Error fetching users:", error);
       }
     };
-
-    fetchCustomers();
+    fetchUsers();
   }, []);
 
-  // ===== Backend-Ready Action Handlers =====
-  const handleDeactivate = async (id) => {
-    const confirm = window.confirm("Are you sure you want to deactivate this user?");
-    if (confirm) {
-      try {
-        // await axios.post(`/api/customers/${id}/deactivate`);
-        console.log(`User ${id} deactivated`);
-      } catch (error) {
-        console.error("Error deactivating user:", error);
-      }
+  // ===== Action Handlers =====
+  const handleDeactivate = (id) => {
+    if (window.confirm("Are you sure you want to deactivate this user?")) {
+      console.log(`User ${id} deactivated`);
     }
   };
 
-  const handleSuspend = async (id) => {
-    const confirm = window.confirm("Suspend this user?");
-    if (confirm) {
-      try {
-        // await axios.post(`/api/customers/${id}/suspend`);
-        console.log(`User ${id} suspended`);
-      } catch (error) {
-        console.error("Error suspending user:", error);
-      }
+  const handleSuspend = (id) => {
+    if (window.confirm("Suspend this user?")) {
+      console.log(`User ${id} suspended`);
     }
   };
 
-  const handleResetPassword = async (id) => {
-    const confirm = window.confirm("Reset password for this user?");
-    if (confirm) {
-      try {
-        // await axios.post(`/api/customers/${id}/reset-password`);
-        console.log(`Password reset for user ${id}`);
-      } catch (error) {
-        console.error("Error resetting password:", error);
-      }
+  const handleResetPassword = (id) => {
+    if (window.confirm("Reset password for this user?")) {
+      console.log(`Password reset for user ${id}`);
     }
+  };
+
+  const handleAddUser = () => setShowAddUserPopup(true);
+  const handleClosePopup = () => {
+    setShowAddUserPopup(false);
+    setNewUser({ name: "", email: "", password: "" });
+  };
+
+  const handleInputChange = (e) => {
+    setNewUser({ ...newUser, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmitNewUser = (e) => {
+    e.preventDefault();
+    if (!newUser.name || !newUser.email || !newUser.password) {
+      alert("Please fill in all fields.");
+      return;
+    }
+    setUsers([...users, { id: users.length + 1, ...newUser }]);
+    handleClosePopup();
   };
 
   return (
@@ -72,8 +71,7 @@ const ManageCustomers = () => {
 
       {/* ===== Main Content ===== */}
       <div className="admin-main-content">
-
-        {/* ===== User Management Section ===== */}
+        {/* ===== User Management Header ===== */}
         <div className="user-management-card">
           <div className="user-management-header">
             <FaBars className="menu-icon" />
@@ -82,17 +80,11 @@ const ManageCustomers = () => {
 
           <div className="user-management-tabs">
             <button className="tab active">User</button>
-            <button className="tab">Add User</button>
-            <button
-              className="tab logout"
-              onClick={() => window.location.assign("/AdminLogin")}
-            >
-              Log Out
-            </button>
+            <button className="tab" onClick={handleAddUser}>Add User</button>
           </div>
         </div>
 
-        {/* ===== List of Shoppers Section ===== */}
+        {/* ===== User List ===== */}
         <section className="customer-list-section">
           <h3 className="customer-list-title">List of Shoppers</h3>
 
@@ -105,27 +97,27 @@ const ManageCustomers = () => {
               </tr>
             </thead>
             <tbody>
-              {customers.length > 0 ? (
-                customers.map((customer) => (
-                  <tr key={customer.id}>
-                    <td>{customer.name}</td>
-                    <td>{customer.email}</td>
+              {users.length > 0 ? (
+                users.map((user) => (
+                  <tr key={user.id}>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
                     <td className="actions">
                       <button
                         className="btn deactivate"
-                        onClick={() => handleDeactivate(customer.id)}
+                        onClick={() => handleDeactivate(user.id)}
                       >
                         Deactivate
                       </button>
                       <button
                         className="btn suspend"
-                        onClick={() => handleSuspend(customer.id)}
+                        onClick={() => handleSuspend(user.id)}
                       >
                         Suspend
                       </button>
                       <button
                         className="btn reset"
-                        onClick={() => handleResetPassword(customer.id)}
+                        onClick={() => handleResetPassword(user.id)}
                       >
                         Reset Password
                       </button>
@@ -143,8 +135,56 @@ const ManageCustomers = () => {
           </table>
         </section>
       </div>
+
+      {/* ===== Add User Popup ===== */}
+      {showAddUserPopup && (
+        <div className="add-user-popup-overlay">
+          <div className="add-user-popup-blur"></div>
+          <div className="add-user-popup-container">
+            <div className="add-user-popup-header">
+              <span className="back-arrow" onClick={handleClosePopup}>
+                &lt;
+              </span>
+              <h3>ADD USER</h3>
+            </div>
+            <hr className="header-divider" />
+            <form className="add-user-form" onSubmit={handleSubmitNewUser}>
+              <label>Name:</label>
+              <input
+                type="text"
+                name="name"
+                value={newUser.name}
+                onChange={handleInputChange}
+                placeholder="Enter full name"
+              />
+
+              <label>Email:</label>
+              <input
+                type="email"
+                name="email"
+                value={newUser.email}
+                onChange={handleInputChange}
+                placeholder="Enter email address"
+              />
+
+              <label>Password:</label>
+              <input
+                type="password"
+                name="password"
+                value={newUser.password}
+                onChange={handleInputChange}
+                placeholder="Enter password"
+              />
+
+              <button type="submit" className="add-user-btn">
+                Add User
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default ManageCustomers;
+export default ManageUsers;

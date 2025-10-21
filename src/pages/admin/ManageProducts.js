@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/admins/ManageProducts.css";
 import Sidebar from "../../assets/Sidebar";
-import { FaBars, FaSearch } from "react-icons/fa";
+import { FaBars, FaSearch, FaArrowLeft } from "react-icons/fa";
 
-// TEMPORARY MOCK DATA — replace later with backend API
 const mockProducts = [
   {
     id: 1,
@@ -34,8 +33,16 @@ const mockProducts = [
 const ManageProducts = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showAddPopup, setShowAddPopup] = useState(false);
+  const [newProduct, setNewProduct] = useState({
+    name: "",
+    description: "",
+    category: "",
+    price: "",
+    stock: "",
+    image: "",
+  });
 
-  // This useEffect will later be replaced by your backend API fetch
   useEffect(() => {
     setProducts(mockProducts);
   }, []);
@@ -48,21 +55,52 @@ const ManageProducts = () => {
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleAddProductClick = () => {
+    setShowAddPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowAddPopup(false);
+    setNewProduct({
+      name: "",
+      description: "",
+      category: "",
+      price: "",
+      stock: "",
+      image: "",
+    });
+  };
+
+  const handleChange = (e) => {
+    setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setNewProduct({ ...newProduct, image: imageUrl });
+    }
+  };
+
+  const handleAddProductSubmit = (e) => {
+    e.preventDefault();
+    const newId = products.length + 1;
+    const newItem = { ...newProduct, id: newId };
+    setProducts([...products, newItem]);
+    setShowAddPopup(false);
+  };
+
   return (
     <div className="manage-products-layout">
-      {/* ===== Sidebar ===== */}
       <Sidebar />
 
-      {/* ===== Main Content ===== */}
       <div className="manage-products-content">
-
-        {/* ===== Module Header ===== */}
         <div className="module-header">
           <FaBars className="menu-icon" />
           <h2>Product Management</h2>
         </div>
 
-        {/* ===== Search & Add Section ===== */}
         <div className="search-add-section">
           <div className="search-bar">
             <FaSearch className="search-icon" />
@@ -73,12 +111,12 @@ const ManageProducts = () => {
               onChange={handleSearch}
             />
           </div>
-          <button className="add-btn">Add Product</button>
+          <button className="add-btn" onClick={handleAddProductClick}>
+            Add Product
+          </button>
         </div>
 
-        {/* ===== Product Table ===== */}
         <div className="product-table">
-          {/* Table Header */}
           <div className="table-header">
             <span>Image</span>
             <span>Product Name</span>
@@ -87,7 +125,6 @@ const ManageProducts = () => {
             <span>Stock</span>
           </div>
 
-          {/* Table Body */}
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <div key={product.id} className="product-row">
@@ -100,9 +137,7 @@ const ManageProducts = () => {
                 <div className="product-stock">
                   <span
                     className={
-                      product.stock === "In stock"
-                        ? "stock-in"
-                        : "stock-out"
+                      product.stock === "In stock" ? "stock-in" : "stock-out"
                     }
                   >
                     {product.stock}
@@ -119,8 +154,99 @@ const ManageProducts = () => {
           )}
         </div>
 
-        {/* ===== Footer Placeholder (Optional) ===== */}
-        <footer className="manage-footer"></footer>
+        {showAddPopup && (
+          <div className="add-product-popup">
+            <div className="add-product-container">
+              <div className="add-product-header">
+                <FaArrowLeft className="back-icon" onClick={handleClosePopup} />
+                <h3>Add Product</h3>
+              </div>
+
+              <div className="add-product-body">
+                <div className="photo-upload-section">
+                  <label htmlFor="imageUpload" className="photo-box">
+                    {newProduct.image ? (
+                      <img
+                        src={newProduct.image}
+                        alt="preview"
+                        className="preview-image"
+                      />
+                    ) : (
+                      <span className="plus-sign">+</span>
+                    )}
+                  </label>
+                  <input
+                    id="imageUpload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    style={{ display: "none" }}
+                  />
+                  <p>Add Photo</p>
+                </div>
+
+                <form className="add-product-form" onSubmit={handleAddProductSubmit}>
+                  <label>Name:</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={newProduct.name}
+                    onChange={handleChange}
+                    required
+                  />
+
+                  <label>Description:</label>
+                  <input
+                    type="text"
+                    name="description"
+                    value={newProduct.description}
+                    onChange={handleChange}
+                  />
+
+                  <label>Category:</label>
+                  <select
+                    name="category"
+                    value={newProduct.category}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select Category</option>
+                    <option value="Drinks">Drinks</option>
+                    <option value="Snacks">Snacks</option>
+                    <option value="Meals">Meals</option>
+                  </select>
+
+                  <div className="price-stock-row">
+                    <div>
+                      <label>Price:</label>
+                      <input
+                        type="number"
+                        name="price"
+                        value={newProduct.price}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label>Stock:</label>
+                      <input
+                        type="text"
+                        name="stock"
+                        value={newProduct.stock}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <button type="submit" className="submit-add-btn">
+                    Add Product
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
