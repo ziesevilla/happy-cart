@@ -121,3 +121,14 @@
 .nav-icon:hover {
   color: #e85d75;
 }
+
+.navbar-home-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit; /* Keeps your current text color */
+}
+
+.navbar-home-link:hover .navbar-title {
+  color: #c0392b; /* Optional hover effect */
+}
