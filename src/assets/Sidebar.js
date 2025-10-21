@@ -5,7 +5,6 @@ import {
   FaBoxOpen,
   FaShoppingCart,
   FaUsers,
-  FaChartBar,
   FaCog,
   FaQuestionCircle,
   FaSignOutAlt,
@@ -27,12 +26,14 @@ const Sidebar = () => {
     <div className="sidebar">
       {/* ===== Logo Section ===== */}
       <div className="sidebar-header">
-        <img
-          src={happyCartLogo}
-          alt="Happy Cart Logo"
-          className="sidebar-logo"
-        />
-        <h2>HAPPY CART</h2>
+        <div className="logo-container">
+          <img
+            src={happyCartLogo}
+            alt="Happy Cart Logo"
+            className="sidebar-logo"
+          />
+          <h2 className="sidebar-title">HAPPY CART</h2>
+        </div>
       </div>
 
       {/* ===== Navigation Menu ===== */}
