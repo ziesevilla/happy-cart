@@ -8,15 +8,15 @@ const ManageUsers = () => {
   const [showAddUserPopup, setShowAddUserPopup] = useState(false);
   const [newUser, setNewUser] = useState({ name: "", email: "", password: "" });
 
-  // ===== Fetch Users (Mock Data - Ready for API) =====
+  // ===== Fetch Users (Mock Data) =====
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         setUsers([
-          { id: 1, name: "Zyra Batumbakal", email: "zyra@example.com" },
-          { id: 2, name: "Raziel Maiyahin", email: "raziel@example.com" },
-          { id: 3, name: "Jericho Barnes", email: "jericho@example.com" },
-          { id: 4, name: "Michael Mikel", email: "michael@example.com" },
+          { id: 1, name: "Zyra Batumbakal", email: "zyra@example.com", status: "active" },
+          { id: 2, name: "Raziel Maiyahin", email: "raziel@example.com", status: "active" },
+          { id: 3, name: "Jericho Barnes", email: "jericho@example.com", status: "active" },
+          { id: 4, name: "Michael Mikel", email: "michael@example.com", status: "active" },
         ]);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -25,25 +25,44 @@ const ManageUsers = () => {
     fetchUsers();
   }, []);
 
-  // ===== Action Handlers =====
+  // ===== Toggle Deactivate / Activate =====
   const handleDeactivate = (id) => {
-    if (window.confirm("Are you sure you want to deactivate this user?")) {
-      console.log(`User ${id} deactivated`);
-    }
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user.id === id
+          ? {
+              ...user,
+              status: user.status === "deactivated" ? "active" : "deactivated",
+            }
+          : user
+      )
+    );
   };
 
+  // ===== Toggle Suspend / Unsuspend =====
   const handleSuspend = (id) => {
-    if (window.confirm("Suspend this user?")) {
-      console.log(`User ${id} suspended`);
-    }
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user.id === id
+          ? {
+              ...user,
+              status: user.status === "suspended" ? "active" : "suspended",
+            }
+          : user
+      )
+    );
   };
 
+  // ===== Reset Password =====
   const handleResetPassword = (id) => {
     if (window.confirm("Reset password for this user?")) {
+      // Placeholder for backend API call
       console.log(`Password reset for user ${id}`);
+      alert("The password has been successfully reset");
     }
   };
 
+  // ===== Add User Popup Handlers =====
   const handleAddUser = () => setShowAddUserPopup(true);
   const handleClosePopup = () => {
     setShowAddUserPopup(false);
@@ -60,16 +79,14 @@ const ManageUsers = () => {
       alert("Please fill in all fields.");
       return;
     }
-    setUsers([...users, { id: users.length + 1, ...newUser }]);
+    setUsers([...users, { id: users.length + 1, ...newUser, status: "active" }]);
     handleClosePopup();
   };
 
   return (
     <div className="admin-dashboard-container">
-      {/* ===== Sidebar ===== */}
       <Sidebar />
 
-      {/* ===== Main Content ===== */}
       <div className="admin-main-content">
         {/* ===== User Management Header ===== */}
         <div className="user-management-card">
@@ -80,7 +97,9 @@ const ManageUsers = () => {
 
           <div className="user-management-tabs">
             <button className="tab active">User</button>
-            <button className="tab" onClick={handleAddUser}>Add User</button>
+            <button className="tab" onClick={handleAddUser}>
+              Add User
+            </button>
           </div>
         </div>
 
@@ -99,21 +118,42 @@ const ManageUsers = () => {
             <tbody>
               {users.length > 0 ? (
                 users.map((user) => (
-                  <tr key={user.id}>
-                    <td>{user.name}</td>
+                  <tr
+                    key={user.id}
+                    className={
+                      user.status === "deactivated"
+                        ? "row-deactivated"
+                        : user.status === "suspended"
+                        ? "row-suspended"
+                        : ""
+                    }
+                  >
+                    <td>
+                      {user.name}
+                      {user.status === "deactivated" && (
+                        <span className="status-text">ACCOUNT DEACTIVATED</span>
+                      )}
+                      {user.status === "suspended" && (
+                        <span className="status-text red">ACCOUNT SUSPENDED</span>
+                      )}
+                    </td>
                     <td>{user.email}</td>
                     <td className="actions">
                       <button
-                        className="btn deactivate"
+                        className={`btn deactivate ${
+                          user.status === "deactivated" ? "activate" : ""
+                        }`}
                         onClick={() => handleDeactivate(user.id)}
                       >
-                        Deactivate
+                        {user.status === "deactivated" ? "Activate" : "Deactivate"}
                       </button>
                       <button
-                        className="btn suspend"
+                        className={`btn suspend ${
+                          user.status === "suspended" ? "unsuspend" : ""
+                        }`}
                         onClick={() => handleSuspend(user.id)}
                       >
-                        Suspend
+                        {user.status === "suspended" ? "Unsuspend" : "Suspend"}
                       </button>
                       <button
                         className="btn reset"
