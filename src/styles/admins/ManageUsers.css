@@ -297,3 +297,39 @@
     transform: scale(1);
   }
 }
+
+/* ===== User Status Row Styles ===== */
+.row-deactivated {
+  background-color: #e0e0e0 !important;
+  color: #555;
+  opacity: 0.7;
+  filter: blur(0.3px);
+}
+
+.row-suspended {
+  background-color: #ffcccc !important;
+  color: #660000;
+  opacity: 0.7;
+  filter: blur(0.3px);
+}
+
+.status-text {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #777;
+  margin-top: 3px;
+}
+
+.status-text.red {
+  color: #c0392b;
+}
+
+/* ===== Button State Overrides ===== */
+.btn.activate {
+  background: #27ae60; /* green for reactivation */
+}
+
+.btn.unsuspend {
+  background: #2980b9; /* blue for unsuspend */
+}
