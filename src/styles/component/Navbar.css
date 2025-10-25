@@ -11,7 +11,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-/* LEFT */
+/* LEFT SIDE */
 .navbar-left {
   display: flex;
   align-items: center;
@@ -34,27 +34,50 @@
   align-items: center;
   text-decoration: none;
   color: inherit;
+  transition: transform 0.2s ease;
 }
 
 .navbar-home-link:hover .navbar-title {
-  color: #c0392b;
+  color: #d86480;
 }
 
-/* RIGHT */
+.navbar-home-link:hover {
+  transform: scale(1.03);
+}
+
+/* RIGHT SIDE */
 .navbar-right {
   display: flex;
   align-items: center;
   gap: 22px;
 }
 
+/* ICON BUTTON RESET */
+.nav-icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
 /* ICONS */
 .nav-icon {
   font-size: 28px;
   color: #000;
-  cursor: pointer;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.nav-icon:hover {
-  color: #e85d75;
+/* Hover Effects */
+.nav-icon-button:hover .nav-icon {
+  color: #e190b2;
+  transform: scale(1.15);
+}
+
+/* Active Tap Animation */
+.nav-icon-button:active {
+  transform: scale(0.9);
 }

@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { FaEye, FaEyeSlash, FaUser } from "react-icons/fa";
 import "../../styles/auths/Signup.css";
 import SignupImage from "../../assets/images/Signup-image.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import mockDB from "../../assets/data/mockDatabase"; // ✅ default import instead of named
 
 const Signup = () => {
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -70,11 +74,30 @@ const Signup = () => {
       !emailError &&
       !passwordError &&
       !confirmError &&
+      fullName &&
       email &&
       password &&
       confirmPassword
     ) {
-      alert("Signup successful!");
+      // ✅ Simulate saving to mockDB
+      const existingUser = mockDB.customers.find(
+        (user) => user.email.toLowerCase() === email.toLowerCase()
+      );
+
+      if (existingUser) {
+        alert("Email already registered. Please login instead.");
+        return;
+      }
+
+      mockDB.customers.push({
+        id: mockDB.customers.length + 1,
+        fullName,
+        email,
+        password,
+      });
+
+      alert("Signup successful! Redirecting to login...");
+      navigate("/login");
     }
   };
 
@@ -103,7 +126,13 @@ const Signup = () => {
           <hr />
           <form onSubmit={handleSubmit}>
             {/* ===== Full Name ===== */}
-            <input type="text" placeholder="Enter full name" required />
+            <input
+              type="text"
+              placeholder="Enter full name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              required
+            />
 
             {/* ===== Email ===== */}
             <input
@@ -137,12 +166,9 @@ const Signup = () => {
                 {showPassword ? <FaEye /> : <FaEyeSlash />}
               </span>
             </div>
-
-            {/* Password error aligned with input */}
             {passwordError && (
               <p className="error-message password-error">{passwordError}</p>
             )}
-
             <small className="password-note">(Must be 8+ Characters)</small>
 
             {/* ===== Confirm Password ===== */}
@@ -158,7 +184,9 @@ const Signup = () => {
                 required
               />
               <span
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                onClick={() =>
+                  setShowConfirmPassword(!showConfirmPassword)
+                }
                 className="eye-icon"
               >
                 {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
@@ -171,10 +199,11 @@ const Signup = () => {
             {/* ===== Redirect to Login ===== */}
             <div className="account-text">
               Already have an Account?{" "}
-              <Link to="/login" className="login-link">
+              <Link to="/auth/login" className="login-link">
                 Login
               </Link>
             </div>
+
 
             {/* ===== Submit Button ===== */}
             <button type="submit" className="signup-btn">

@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import { Button, Image } from "react-bootstrap";
+import { Image } from "react-bootstrap";
 import "../../styles/pages/Home.css";
 import { mockDB } from "../../assets/data/mockDatabase";
+import ShopNow from "../../components/common/ShopNow"; // ✅ import reusable button
 
 const Home = (props) => {
   const products = props?.featuredData ?? mockDB.featured;
@@ -60,7 +61,7 @@ const Home = (props) => {
           <div className="promo-subtext">{promos[promoIndex].subtext}</div>
         </div>
 
-        {/* 🏝️ Hero Section - Original Version */}
+        {/* 🏝️ Hero Section */}
         <div className="hero-wrapper">
           <div className="hero-container hero-left">
             <Image src={heroSets[heroIndex].left} alt="Left banner" fluid />
@@ -76,9 +77,7 @@ const Home = (props) => {
           >
             <div className="hero-text-overlay text-center text-white">
               <h2 className="fw-bold">{heroSets[heroIndex].centerText}</h2>
-              <Button variant="light" href="/products" className="mt-3">
-                Shop Now
-              </Button>
+              <ShopNow to="/products" label="Shop Now" /> {/* ✅ replaced Button */}
             </div>
           </div>
 
@@ -98,9 +97,7 @@ const Home = (props) => {
                 <img src={product.image} alt={product.name} />
                 <div className="overlay-text">
                   <h5>{product.name}</h5>
-                  <Button variant="light" size="sm" href="/products">
-                    Shop Now
-                  </Button>
+                  <ShopNow to="/products" size="sm" /> {/* ✅ replaced Button */}
                 </div>
               </div>
             </div>
@@ -118,49 +115,52 @@ const Home = (props) => {
               <div className="top-pick-overlay">
                 <h5>{item.name}</h5>
                 <p>{item.description}</p>
-                <Button variant="light" size="sm" href="/products">
-                  Shop Now
-                </Button>
+                <ShopNow to="/products" size="sm" /> {/* ✅ replaced Button */}
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* 🎉 Happy Deals */}
-      <section 
-        className="happy-deals-section"
-        onMouseEnter={() => setIsMarqueePaused(true)}
-        onMouseLeave={() => setIsMarqueePaused(false)}
-      >
-        <h3 className="fw-bold">Happy Deals</h3>
-        <div className="marquee" aria-hidden="false">
-          <div 
-            className="marquee-track"
-            style={{ animationPlayState: isMarqueePaused ? 'paused' : 'running' }}
-          >
-            {[...happyDeals, ...happyDeals.map((d) => ({ ...d, id: `dup-${d.id}` }))].map((deal) => (
-              <div className="deal-card" key={deal.id}>
-                <img src={deal.image} alt={deal.name} />
-                <div className="deal-overlay">
-                  <h5>{deal.name}</h5>
-                  <Button variant="light" size="sm" href="/products">
-                    Shop Now
-                  </Button>
-                </div>
-              </div>
-            ))}
+{/* 🎉 Happy Deals (Seamless Infinite Scroll) */}
+<section
+  className="happy-deals-section"
+  onMouseEnter={() => setIsMarqueePaused(true)}
+  onMouseLeave={() => setIsMarqueePaused(false)}
+>
+  <h3 className="fw-bold">Happy Deals</h3>
+
+  <div className="marquee">
+    <div
+      className="marquee-track"
+      style={{
+        animationPlayState: isMarqueePaused ? "paused" : "running",
+      }}
+    >
+      {[...happyDeals, ...happyDeals].map((deal, index) => (
+        <div className="deal-card" key={`${deal.id}-${index}`}>
+          <img src={deal.image} alt={deal.name} className="deal-image" />
+          <div className="deal-overlay">
+            <h5>{deal.name}</h5>
+            <ShopNow />
           </div>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
-      {/* 💬 Happy Reviews - Consistent with other sections */}
+      {/* 💬 Happy Reviews */}
       <section className="happy-reviews-section">
         <h3 className="fw-bold">Happy Reviews 💕</h3>
         <div className="reviews-grid">
           {happyReviews.map((review) => (
             <div key={review.id} className="review-card">
-              <img src={review.productImage} className="review-image" alt={review.productName} />
+              <img
+                src={review.productImage}
+                className="review-image"
+                alt={review.productName}
+              />
               <div className="review-content">
                 <h5 className="review-product-name">{review.productName}</h5>
                 <p className="review-comment">"{review.comment}"</p>

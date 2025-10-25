@@ -61,6 +61,19 @@ import Pr52 from "../images/Pr52.jpg";
 import Pr53 from "../images/Pr53.jpg";
 import Pr54 from "../images/Pr54.jpg";
 
+import HbL1 from "../images/Left side hero banner (Set 1).png";
+import HbL2 from "../images/Left side hero banner (Set 1).png";
+import HbL3 from "../images/Left side hero banner (Set 3).png";
+
+import HbR1 from "../images/Right side hero banner (Set 1).png";
+import HbR2 from "../images/Right side hero banner (Set 2).png";
+import HbR3 from "../images/Right side hero banner (Set 3).png";
+
+import HbC1 from "../images/Center hero background (Set 1).png";
+import HbC2 from "../images/Center hero background (Set 2).png";
+import HbC3 from "../images/Center hero background (Set 3).png";
+
+
 // ==================================================
 // ==============  MOCK DATABASE  ===================
 // ==================================================
@@ -68,9 +81,9 @@ import Pr54 from "../images/Pr54.jpg";
 export const mockDB = {
   // 🏝️ Hero Banner Sets
   heroSets: [
-    { id: 1, left: Pr26, centerBg: Pr32, centerText: "STEP INTO COMFORT", right: Pr38 },
-    { id: 2, left: Pr39, centerBg: Pr27, centerText: "WALK IN STYLE", right: Pr33 },
-    { id: 3, left: Pr34, centerBg: Pr40, centerText: "DISCOVER YOUR LOOK", right: Pr28 },
+    { id: 1, left: HbL1, centerBg: HbC1, centerText: "STEP INTO COMFORT", right: HbR1 },
+    { id: 2, left: HbL2, centerBg: HbC2, centerText: "WALK IN STYLE", right: HbR2 },
+    { id: 3, left: HbL3, centerBg: HbC3, centerText: "DISCOVER YOUR LOOK", right: HbR3 },
   ],
 
   // 💎 Featured Products
@@ -257,6 +270,52 @@ export const mockDB = {
     { type: "Home Address", name: "John Doe", contact: "(+63) 912 345 6789", address: "123, MAIN STREET, BRGY UNO, Quezon City, Metro Manila", isDefault: true },
     { type: "Work Address", name: "Maria Santos", contact: "(+63) 912 345 6789", address: "456, Business Center, Floor 6, Makati City, Metro Manila", isDefault: false },
     { type: "Parent's Address", name: "Pedro Reyes", contact: "(+63) 912 345 6789", address: "789, Subdivision Phase 2, Cebu City, Cebu 6000", isDefault: false },
+  ],
+
+
+// 👥 Customer Data
+customers: [
+  {
+    id: 1,
+    name: "Zyra Batumbakal",
+    email: "zyra08@gmail.com",
+    password: "Zyra@123", // (Note: in real apps, never store plain passwords!)
+    phone: "0969697119696",
+    address: "Barangay Mamatid, Cabuyao City, Laguna",
+    joinedDate: "2024-06-21",
+    orders: ["BB01", "BB03"], // references to orders in mockDB.orders
+  },
+  {
+    id: 2,
+    name: "Lance Rivera",
+    email: "lance.rivera@example.com",
+    password: "Lance@2024",
+    phone: "09123456789",
+    address: "Quezon City, Metro Manila",
+    joinedDate: "2024-07-15",
+    orders: ["BB02"],
+  },
+  {
+    id: 3,
+    name: "Ella Cruz",
+    email: "ella.cruz@example.com",
+    password: "Ella@2024",
+    phone: "09998887777",
+    address: "Cebu City, Cebu",
+    joinedDate: "2024-08-05",
+    orders: [],
+  },
+  {
+    id: 4,
+    name: "Trisha Villanueva",
+    email: "trisha.v@example.com",
+    password: "Trisha@2024",
+    phone: "09221113344",
+    address: "Pasig City, Metro Manila",
+    joinedDate: "2024-09-12",
+    orders: ["BB04"],
+    },
+
   ],
 };
 

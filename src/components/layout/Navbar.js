@@ -1,10 +1,21 @@
 import React from "react";
 import "../../styles/component/Navbar.css";
 import logo from "../../assets/images/happy-cart.png";
-import { NavLink, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaShoppingCart } from "react-icons/fa";
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn }) => {
+  const navigate = useNavigate();
+
+  // 🧭 Handle protected navigation (redirects to login if not logged in)
+  const handleProtectedRoute = (path) => {
+    if (isLoggedIn) {
+      navigate(path);
+    } else {
+      navigate("/auth/signup");
+    }
+  };
+
   return (
     <nav className="navbar">
       {/* LEFT: LOGO + HOME */}
@@ -17,15 +28,23 @@ const Navbar = () => {
 
       {/* RIGHT: USER + CART */}
       <div className="navbar-right">
-        {/* USER ICON → redirects to login */}
-        <NavLink to="/auth/login">
+        {/* USER ICON */}
+        <button
+          onClick={() => handleProtectedRoute("/profile")}
+          className="nav-icon-button"
+          aria-label="User Account"
+        >
           <FaUser className="nav-icon" />
-        </NavLink>
+        </button>
 
         {/* CART ICON */}
-        <NavLink to="/cart">
+        <button
+          onClick={() => handleProtectedRoute("/cart")}
+          className="nav-icon-button"
+          aria-label="Shopping Cart"
+        >
           <FaShoppingCart className="nav-icon" />
-        </NavLink>
+        </button>
       </div>
     </nav>
   );

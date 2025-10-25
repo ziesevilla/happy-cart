@@ -1,11 +1,16 @@
-// Login.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../../styles/auths/Login.css";
 import { FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
 import loginImage from "../../assets/images/Login-image.png";
 import ResetPassword from "./ResetPassword";
+import { useNavigate } from "react-router-dom";
+import mockDB from "../../assets/data/mockDatabase"; // ✅ Mock database
+import { AuthContext } from "../../context/AuthContext"; // ✅ Import context
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // ✅ Access the login() function from context
+
   // ===== State Management =====
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,49 +19,47 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
 
-  // ===== Helper Validation Functions =====
-  const validateEmail = (email) => email.includes("@");
-
-  const validatePassword = (password) => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
-  };
-
-  // ===== Auto-Clear Errors When User Types =====
+  // ===== Auto-clear errors when typing =====
   useEffect(() => {
-    if (email !== "" && errors.email) {
-      setErrors((prev) => ({ ...prev, email: undefined }));
-    }
-    if (password !== "" && errors.password) {
-      setErrors((prev) => ({ ...prev, password: undefined }));
-    }
-    if (password === "") {
-      setErrors((prev) => ({ ...prev, password: undefined }));
-    }
+    if (email && errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
+    if (password && errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
   }, [email, password]);
 
-  // ===== Form Submit Handler =====
+  // ===== Validate Login Against mockDatabase =====
   const handleLogin = (e) => {
     e.preventDefault();
     const newErrors = {};
     setSuccessMessage("");
 
-    if (!validateEmail(email)) {
-      newErrors.email = "Please enter a valid email containing '@'.";
+    if (!email) newErrors.email = "Please enter your email.";
+    if (!password) newErrors.password = "Please enter your password.";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
     }
 
-    if (!validatePassword(password)) {
-      newErrors.password =
-        "Password must have 8+ characters, uppercase, lowercase, number, and special character.";
+    // ✅ Find user in mock database
+    const user = mockDB.customers.find((acc) => acc.email === email);
+
+    if (!user) {
+      setErrors({ email: "Account not found. Please sign up first." });
+      return;
     }
 
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      setSuccessMessage("✅ Login successful! Redirecting...");
-      setTimeout(() => console.log("Redirecting to dashboard..."), 1500);
+    if (user.password !== password) {
+      setErrors({ password: "Incorrect password. Please try again." });
+      return;
     }
+
+    // ✅ Save user globally using AuthContext
+    login(user);
+
+    // ✅ Success feedback
+    setSuccessMessage("✅ Login successful! Redirecting...");
+    setTimeout(() => {
+      navigate("/"); // Redirect to home page
+    }, 1500);
   };
 
   const handleContinueToLogin = () => setShowResetModal(false);
@@ -79,9 +82,7 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {errors.email && (
-                <small className="error-text">{errors.email}</small>
-              )}
+              {errors.email && <small className="error-text">{errors.email}</small>}
             </div>
 
             {/* ===== Password Input ===== */}
@@ -104,11 +105,8 @@ const Login = () => {
                 </span>
               </div>
 
-              {/* Aligned error message under password field */}
               {errors.password && (
-                <small className="error-text password-error">
-                  {errors.password}
-                </small>
+                <small className="error-text password-error">{errors.password}</small>
               )}
             </div>
 
@@ -127,9 +125,7 @@ const Login = () => {
             </button>
 
             {/* ===== Success Message ===== */}
-            {successMessage && (
-              <p className="success-text">{successMessage}</p>
-            )}
+            {successMessage && <p className="success-text">{successMessage}</p>}
           </form>
         </div>
       </div>
