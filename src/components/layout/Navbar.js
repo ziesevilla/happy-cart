@@ -31,7 +31,7 @@ function AppNavbar() {
               <NavDropdown.Item as={NavLink} to="/login">
                 Login
               </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/register">
+              <NavDropdown.Item as={NavLink} to="/signup">
                 Sign Up
               </NavDropdown.Item>
               <NavDropdown.Divider />
