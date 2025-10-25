@@ -55,7 +55,7 @@ function App() {
 
               {/* Authentication Routes */}
               <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/auth/signup" element={<Signup />} />
               <Route path="/reset-password" element={<ResetPassword />} />
 
               {/* Admin Routes */}
