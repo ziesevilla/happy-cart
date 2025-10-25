@@ -59,17 +59,39 @@ const Navbar = () => {
         </li>
       </ul>
 
-      {/* ===== Right Section ===== */}
-      <div className="navbar-right">
-        <div className="search-container">
-          <input type="text" placeholder="Search" />
-          <FaSearch className="search-icon" />
-        </div>
-        <FaUser className="nav-icon" />
-        <FaHeart className="nav-icon" />
-        <FaShoppingCart className="nav-icon" />
-      </div>
-    </nav>
+            {/* Account Dropdown */}
+            <NavDropdown title={<FaUser />} id="user-dropdown" align="end">
+              <NavDropdown.Item as={NavLink} to="/login">
+                Login
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/signup">
+                Sign Up
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item as={NavLink} to="/profile">
+                Profile
+              </NavDropdown.Item>
+            </NavDropdown>
+
+            {/* Admin Dropdown */}
+            <NavDropdown title="Admin" id="admin-dropdown" align="end">
+              <NavDropdown.Item as={NavLink} to="/admin/dashboard">
+                Dashboard
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/admin/products">
+                Manage Products
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/admin/orders">
+                Manage Orders
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/admin/users">
+                Manage Users
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 
