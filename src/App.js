@@ -21,6 +21,7 @@ import Profile from "./pages/Profile";
 import Orders from "./pages/Orders";
 
 // ⚙️ Admin Pages
+import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageUsers from "./pages/admin/ManageUsers";
 import ManageProducts from "./pages/admin/ManageProducts";
@@ -58,6 +59,7 @@ function App() {
               <Route path="/reset-password" element={<ResetPassword />} />
 
               {/* Admin Routes */}
+              <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
               <Route path="/admin/users" element={<ManageUsers />} />
               <Route path="/admin/products" element={<ManageProducts />} />

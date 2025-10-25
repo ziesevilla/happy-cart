@@ -1,0 +1,335 @@
+/* ===== Root Theme Variables (from global.css) ===== */
+:root {
+  --bg: #fdf7f3;
+  --panel: #fff;
+  --accent-1: #ffecec;
+  --accent-2: #ffdfe0;
+  --accent-3: #f7bfc0;
+  --text: #222;
+  --muted: #777;
+  --success: #27ae60;
+  --danger: #d32f2f;
+  --info: #2980b9;
+  --shadow: 0 6px 18px rgba(16, 24, 32, 0.06);
+  --radius: 12px;
+  --pad: 18px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===== Layout ===== */
+.admin-dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.admin-main-content {
+  flex: 1;
+  margin-left: 250px; /* ensure it sits beside the sidebar */
+  padding: 30px 40px;
+  background: var(--bg);
+}
+
+/* ===== Card Header ===== */
+.user-management-card {
+  background: var(--accent-3);
+  border-radius: var(--radius);
+  padding: var(--pad);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-management-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-icon {
+  font-size: 20px;
+  color: var(--text);
+}
+
+.user-management-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ===== Tabs ===== */
+.user-management-tabs {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.tab {
+  background: var(--accent-1);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.tab.active {
+  background: var(--accent-3);
+  color: #fff;
+}
+
+.tab:hover {
+  background: var(--accent-2);
+}
+
+/* ===== Customer Table Section ===== */
+.customer-list-section {
+  background: var(--panel);
+  border-radius: var(--radius);
+  margin-top: 25px;
+  padding: 25px;
+  box-shadow: var(--shadow);
+}
+
+.customer-list-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+/* ===== Table ===== */
+.customer-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--panel);
+}
+
+.customer-table th {
+  background: var(--accent-1);
+  padding: 14px 12px;
+  text-align: left;
+  color: var(--text);
+  font-weight: 600;
+  border-bottom: 1px solid var(--accent-2);
+}
+
+.customer-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--accent-2);
+  color: var(--text);
+}
+
+.customer-table tr:hover {
+  background: var(--accent-1);
+}
+
+.no-data {
+  text-align: center;
+  color: var(--muted);
+  padding: 20px 0;
+}
+
+/* ===== Action Buttons ===== */
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #fff;
+  font-weight: 500;
+}
+
+.btn.deactivate {
+  background: #f59e0b; /* amber accent */
+}
+
+.btn.suspend {
+  background: var(--danger);
+}
+
+.btn.reset {
+  background: var(--info);
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* ===== Responsive Layout ===== */
+@media (max-width: 768px) {
+  .admin-main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+/* ===== Base Layout ===== */
+.admin-dashboard-container {
+  display: flex;
+  height: 100vh;
+  background-color: #f8f3f2; /* Light pinkish-beige */
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===== Add User Popup ===== */
+.add-user-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The blurred background only for popup */
+.add-user-popup-blur {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(6px);
+  background: rgba(255, 245, 247, 0.5);
+  z-index: 1;
+}
+
+/* The actual popup container */
+.add-user-popup-container {
+  position: relative;
+  z-index: 2;
+  background-color: #f7c8d3; /* Soft rose-pink */
+  border-radius: 16px;
+  width: 400px;
+  padding: 20px 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.3s ease;
+}
+
+/* ===== Header ===== */
+.add-user-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.back-arrow {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+
+.add-user-popup-header h3 {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  color: black;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.header-divider {
+  border: none;
+  border-top: 1px solid #c98fa6;
+  margin: 10px 0 15px 0;
+}
+
+/* ===== Form ===== */
+.add-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.add-user-form label {
+  font-weight: 600;
+  color: black;
+}
+
+.add-user-form input {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d6a4b3;
+  background-color: #fbe9ed;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.add-user-form input:focus {
+  border-color: #c8728b;
+}
+
+/* ===== Button ===== */
+.add-user-btn {
+  background-color: #e89db2;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+  box-shadow: 0 2px 4px rgba(100, 0, 0, 0.1);
+}
+
+.add-user-btn:hover {
+  background-color: #e17c9d;
+  transform: translateY(-1px);
+}
+
+/* ===== Animation ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== User Status Row Styles ===== */
+.row-deactivated {
+  background-color: #e0e0e0 !important;
+  color: #555;
+  opacity: 0.7;
+  filter: blur(0.3px);
+}
+
+.row-suspended {
+  background-color: #ffcccc !important;
+  color: #660000;
+  opacity: 0.7;
+  filter: blur(0.3px);
+}
+
+.status-text {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #777;
+  margin-top: 3px;
+}
+
+.status-text.red {
+  color: #c0392b;
+}
+
+/* ===== Button State Overrides ===== */
+.btn.activate {
+  background: #27ae60; /* green for reactivation */
+}
+
+.btn.unsuspend {
+  background: #2980b9; /* blue for unsuspend */
+}
