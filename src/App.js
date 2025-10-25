@@ -78,7 +78,13 @@ function LayoutWrapper() {
 
 function App() {
   return (
-    <Provider store={store}></Provider>
+    <Provider store={store}>
+       <AuthProvider>
+        <Router>
+          <LayoutWrapper />
+        </Router>
+      </AuthProvider>
+    </Provider>
   );
 }
 
