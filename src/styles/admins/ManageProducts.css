@@ -1,0 +1,413 @@
+:root {
+  --bg: #fff6f2;
+  --panel: #fff;
+  --accent-1: #ffdfe0;
+  --accent-2: #fff8f5;
+  --accent-3: #fcaea9;
+  --text: #222;
+  --muted: #666;
+  --success: #27ae60;
+  --danger: #d32f2f;
+  --shadow: 0 6px 18px rgba(16,24,32,0.06);
+  --radius: 12px;
+  --pad: 18px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Layout wrapper */
+.manage-products-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg);
+}
+
+/* main content */
+.manage-products-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-left: 250px; /* same sidebar spacing */
+  padding-top: 18px;
+}
+
+/* page header - match ManageUsers style */
+.manage-header {
+  background: linear-gradient(180deg, var(--accent-1), #fff);
+  text-align: center;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  box-shadow: var(--shadow);
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.header-logo img {
+  width: 46px;
+  height: 46px;
+  object-fit: cover;
+}
+
+.header-logo h1 {
+  font-size: 1.35rem; /* slightly larger to match ManageUsers */
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* module header (subsection) */
+.module-header {
+  background: linear-gradient(90deg, var(--accent-3), var(--accent-1));
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 1.05rem;
+  border-radius: 12px;
+  margin: 18px 20px 12px 20px;
+  box-shadow: 0 8px 20px rgba(16, 24, 32, 0.04);
+}
+
+.module-header .menu-icon {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+/* Search & add row */
+.search-add-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: #fff;
+  margin: 0 20px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f6f6f6;
+  padding: 8px 12px;
+  border-radius: 999px;
+  width: 62%;
+}
+
+.search-icon {
+  color: #555;
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* add button */
+.add-btn {
+  background-color: #3dd9ac;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(61, 217, 172, 0.14);
+  font-size: 0.95rem;
+  transition: transform 0.15s ease;
+}
+
+.add-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* product table wrapper */
+.product-table {
+  background: var(--panel);
+  margin: 18px 20px 30px 20px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* table header row (grid) */
+.table-header {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1.2fr 1fr 1.2fr;
+  background-color: #fbfbfb;
+  padding: 14px 20px;
+  font-weight: 700;
+  color: var(--text);
+  align-items: center;
+  font-size: 0.95rem; /* match ManageUsers text size */
+  letter-spacing: 0.2px;
+}
+
+/* each product row */
+.product-row {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1.2fr 1fr 1.2fr;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  padding: 14px 20px;
+  transition: background 0.18s ease, transform 0.12s ease;
+  font-size: 0.93rem; /* consistent with ManageUsers */
+}
+
+.product-row:hover {
+  background: var(--accent-2);
+  transform: translateY(-2px);
+}
+
+/* image */
+.product-image img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* product info */
+.product-name {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.97rem;
+}
+
+.product-category {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.product-price {
+  font-weight: 700;
+  color: #111;
+  font-size: 0.95rem;
+}
+
+/* stock & actions */
+.product-stock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.stock-in {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.stock-out {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+/* action buttons */
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+  border: none;
+  background: transparent;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.edit-btn {
+  color: #1976d2;
+}
+
+.delete-btn {
+  color: var(--danger);
+}
+
+/* empty state */
+.no-results {
+  text-align: center;
+  padding: 22px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* responsive */
+@media (max-width: 980px) {
+  .manage-products-content {
+    padding-left: 0;
+  }
+  .table-header,
+  .product-row {
+    grid-template-columns: 1fr 1.6fr 1fr 0.8fr 1fr;
+    padding: 12px;
+  }
+  .search-add-section {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .search-bar {
+    width: 100%;
+  }
+}
+
+/* ===== Add Product Popup Overlay ===== */
+.add-product-popup {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(3px);
+}
+
+/* ===== Popup Container ===== */
+.add-product-container {
+  background: #fff3f3;
+  border-radius: 12px;
+  width: 600px;
+  padding: 25px 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  font-family: "Poppins", sans-serif;
+  animation: fadeIn 0.25s ease-in;
+}
+
+/* ===== Header ===== */
+.add-product-header {
+  background: #ffdfe0;
+  border-radius: 10px;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-product-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+}
+
+.back-icon {
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
+}
+
+/* ===== Popup Body ===== */
+.add-product-body {
+  display: flex;
+  gap: 25px;
+  margin-top: 20px;
+}
+
+/* ===== Photo Upload Box ===== */
+.photo-upload-section {
+  text-align: center;
+}
+
+.photo-box {
+  width: 140px;
+  height: 140px;
+  border: 4px solid #a0a0a0;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.plus-sign {
+  font-size: 50px;
+  color: gray;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.photo-upload-section p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #000;
+}
+
+/* ===== Form ===== */
+.add-product-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.add-product-form label {
+  font-weight: 600;
+  color: #111;
+  margin-top: 6px;
+}
+
+.add-product-form input,
+.add-product-form select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* ===== Price & Stock in one row ===== */
+.price-stock-row {
+  display: flex;
+  gap: 12px;
+}
+
+.submit-add-btn {
+  margin-top: 15px;
+  background: #ffc5cb;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 0;
+  font-weight: 600;
+  color: #000;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.submit-add-btn:hover {
+  background: #ffb6be;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
