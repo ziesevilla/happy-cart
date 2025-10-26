@@ -1,15 +1,6 @@
-// ResetPassword.js
 import React, { useEffect, useRef, useState } from "react";
+import { FaEye, FaEyeSlash, FaArrowLeft, FaCheck } from "react-icons/fa";
 import "../../styles/auths/ResetPassword.css";
-
-/**
- * Props:
- * - isOpen: boolean (controls modal visibility)
- * - onClose: function() (close modal)
- * - onContinueToLogin: function() (callback when user chooses to go to Login page)
- *
- * Usage: <ResetPassword isOpen={showReset} onClose={() => setShowReset(false)} onContinueToLogin={...} />
- */
 
 export default function ResetPassword({ isOpen, onClose, onContinueToLogin }) {
   const [step, setStep] = useState(1); // 1: request email, 2: create password, 3: success
@@ -20,11 +11,41 @@ export default function ResetPassword({ isOpen, onClose, onContinueToLogin }) {
   const [pwdError, setPwdError] = useState("");
   const [showPwd, setShowPwd] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const modalRef = useRef(null);
+
+  // Password strength states
+  const [showPasswordRules, setShowPasswordRules] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState({ strength: 'none', score: 0 });
+
+  // Password validation rules
+  const passwordRules = [
+    { id: 1, text: "At least 8 characters", validator: (pwd) => pwd.length >= 8 },
+    { id: 2, text: "At least one uppercase letter", validator: (pwd) => /[A-Z]/.test(pwd) },
+    { id: 3, text: "At least one lowercase letter", validator: (pwd) => /[a-z]/.test(pwd) },
+    { id: 4, text: "At least one number", validator: (pwd) => /[0-9]/.test(pwd) },
+    { id: 5, text: "At least one special character", validator: (pwd) => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd) },
+  ];
+
+  // Calculate password strength
+  const calculatePasswordStrength = (pwd) => {
+    if (pwd.length === 0) return { strength: 'none', score: 0 };
+    
+    let score = 0;
+    passwordRules.forEach(rule => {
+      if (rule.validator(pwd)) score += 1;
+    });
+
+    if (pwd.length >= 12) score += 1;
+    if (pwd.length >= 16) score += 1;
+
+    if (score <= 2) return { strength: 'weak', score };
+    else if (score <= 4) return { strength: 'moderate', score };
+    else return { strength: 'strong', score };
+  };
 
   useEffect(() => {
     if (isOpen) {
-      // reset internal state whenever modal opens
       setStep(1);
       setEmail("");
       setEmailError("");
@@ -33,114 +54,132 @@ export default function ResetPassword({ isOpen, onClose, onContinueToLogin }) {
       setPwdError("");
       setShowPwd(false);
       setShowConfirm(false);
-      document.body.style.overflow = "hidden"; // lock scroll
+      setIsSubmitting(false);
+      setShowPasswordRules(false);
+      setPasswordStrength({ strength: 'none', score: 0 });
+      document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
     return () => (document.body.style.overflow = "");
   }, [isOpen]);
 
-  // close on ESC
+  // Close on ESC
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === "Escape" && isOpen) {
-        onClose?.();
-      }
+      if (e.key === "Escape" && isOpen) onClose?.();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen, onClose]);
 
+  // Close password rules when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        setShowPasswordRules(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const validateEmail = (value) => {
     const trimmed = value.trim();
-    if (!trimmed) return "Email is required.";
+    if (!trimmed) return "Please enter your email address.";
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!re.test(trimmed)) return "Enter a valid email address.";
+    if (!re.test(trimmed)) return "Please enter a valid email address.";
     return "";
   };
 
-  const handleSend = (e) => {
+  const handleSend = async (e) => {
     e?.preventDefault();
     const err = validateEmail(email);
     setEmailError(err);
+    
     if (!err) {
-      // Real app: call API to send reset link or generate token
-      // For this modal flow: go to Create New Password
+      setIsSubmitting(true);
+      await new Promise(resolve => setTimeout(resolve, 1000));
       setStep(2);
+      setIsSubmitting(false);
     }
   };
 
-  const handleResetPassword = (e) => {
+  const handleResetPassword = async (e) => {
     e?.preventDefault();
-    if (password.length < 8) {
-      setPwdError("Password must be at least 8 characters.");
+    
+    if (passwordStrength.strength === 'weak') {
+      setPwdError("Please use a stronger password.");
       return;
     }
     if (password !== confirm) {
       setPwdError("Passwords do not match.");
       return;
     }
+    
     setPwdError("");
-    // Real app: submit new password + token
+    setIsSubmitting(true);
+    await new Promise(resolve => setTimeout(resolve, 1000));
     setStep(3);
+    setIsSubmitting(false);
+  };
+
+  const handlePasswordChange = (value) => {
+    setPassword(value);
+    setPasswordStrength(calculatePasswordStrength(value));
+    if (value.length > 0) {
+      setShowPasswordRules(true);
+    } else {
+      setShowPasswordRules(false);
+    }
+    if (pwdError) setPwdError("");
   };
 
   const onOverlayClick = (e) => {
-    // close if clicked outside the modal card (overlay)
     if (modalRef.current && !modalRef.current.contains(e.target)) {
       onClose?.();
     }
   };
 
+  const PasswordStrengthIndicator = () => (
+    <div className="password-strength-indicator">
+      <div className="strength-bars">
+        <div className={`strength-bar ${passwordStrength.strength === 'weak' ? 'active weak' : ''}`}></div>
+        <div className={`strength-bar ${passwordStrength.strength === 'moderate' ? 'active moderate' : ''}`}></div>
+        <div className={`strength-bar ${passwordStrength.strength === 'strong' ? 'active strong' : ''}`}></div>
+      </div>
+      <div className={`strength-text ${passwordStrength.strength}`}>
+        {passwordStrength.strength === 'weak' && 'Weak password'}
+        {passwordStrength.strength === 'moderate' && 'Moderate password'}
+        {passwordStrength.strength === 'strong' && 'Strong password'}
+        {passwordStrength.strength === 'none' && 'Enter a password'}
+      </div>
+    </div>
+  );
+
   if (!isOpen) return null;
 
   return (
-    <div className="rp-overlay" onMouseDown={onOverlayClick} aria-modal="true" role="dialog">
-      <div className="rp-card" ref={modalRef} onMouseDown={(e) => e.stopPropagation()}>
+    <div className="reset-overlay" onMouseDown={onOverlayClick} aria-modal="true" role="dialog">
+      <div className="reset-card" ref={modalRef} onMouseDown={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div className="rp-header">
-          <button
-            className="rp-back"
-            onClick={() => {
-              if (step === 1) {
-                onClose?.();
-              } else {
-                setPwdError("");
-                setEmailError("");
-                setStep((s) => Math.max(1, s - 1));
-              }
-            }}
-            aria-label="Back"
-          >
-            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-              <path
-                d="M15 6L9 12l6 6"
-                stroke="currentColor"
-                strokeWidth="2"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span>Back</span>
-          </button>
-
-          <div className="rp-title">
-            {step === 1 && "Reset your Password"}
-            {step === 2 && "Create New Password"}
-            {step === 3 && "Password Updated"}
+        <div className="reset-header">
+          <div className="reset-title">
+            {step === 1 && "RESET YOUR PASSWORD"}
+            {step === 2 && "CREATE NEW PASSWORD"}
+            {step === 3 && "PASSWORD UPDATED"}
           </div>
         </div>
 
-        <div className="rp-divider" />
+        <hr className="reset-divider" />
 
-        <div className="rp-body">
+        <div className="reset-body">
           {step === 1 && (
-            <form onSubmit={handleSend} className="rp-form">
-              <h3 className="rp-question">Forgot your password?</h3>
-              <p className="rp-subtext">Enter your Email to Receive reset Instruction</p>
+            <form onSubmit={handleSend} className="reset-form">
+              <h3 className="reset-question">Forgot your password?</h3>
+              <p className="reset-subtext">Enter your email to receive reset instructions</p>
 
-              <label className="rp-input-wrapper">
+              <div className="input-wrapper">
                 <input
                   type="email"
                   placeholder="Email Address"
@@ -149,72 +188,98 @@ export default function ResetPassword({ isOpen, onClose, onContinueToLogin }) {
                     setEmail(e.target.value);
                     if (emailError) setEmailError("");
                   }}
-                  className={`rp-input ${emailError ? "rp-input-error" : ""}`}
-                  aria-label="Email Address"
+                  className={`input-field ${emailError ? "input-error" : ""}`}
+                  disabled={isSubmitting}
                 />
-              </label>
-              {emailError && <div className="rp-error">{emailError}</div>}
+                {emailError && <small className="error-text">{emailError}</small>}
+              </div>
 
-              <button type="submit" className="rp-btn rp-btn-primary">SEND</button>
+              <button 
+                type="submit" 
+                className="reset-btn primary"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "SENDING..." : "SEND RESET LINK"}
+              </button>
 
-              <div className="rp-footer-text">
-                Remember your Password?{" "}
+              <div className="reset-footer">
+                <hr className="reset-footer-divider" />
+                <p className="reset-footer-text">Remember your password?</p>
                 <button
                   type="button"
-                  className="rp-link"
+                  className="reset-footer-btn"
                   onClick={() => {
                     onClose?.();
                     onContinueToLogin?.();
                   }}
+                  disabled={isSubmitting}
                 >
-                  Login
+                  BACK TO LOGIN
                 </button>
               </div>
             </form>
           )}
 
           {step === 2 && (
-            <form onSubmit={handleResetPassword} className="rp-form">
-              <div className="rp-field">
-                <label className="sr-only">Enter New Password</label>
-                <div className="rp-input-icon">
+            <form onSubmit={handleResetPassword} className="reset-form">
+              <div className="input-wrapper password-wrapper">
+                <div className="password-container">
                   <input
                     type={showPwd ? "text" : "password"}
-                    placeholder="Enter New Password"
+                    placeholder="New Password"
                     value={password}
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                      if (pwdError) setPwdError("");
-                    }}
-                    className="rp-input rp-input-pill"
-                    aria-label="Enter new password"
+                    onChange={(e) => handlePasswordChange(e.target.value)}
+                    className={`input-field ${pwdError ? "input-error" : ""} ${
+                      passwordStrength.strength === 'weak' && password.length > 0 ? "input-warning" : ""
+                    } ${
+                      passwordStrength.strength === 'moderate' ? "input-moderate" : ""
+                    } ${
+                      passwordStrength.strength === 'strong' ? "input-valid" : ""
+                    }`}
+                    disabled={isSubmitting}
                   />
-                  <button
-                    type="button"
-                    className="rp-eye"
-                    onClick={() => setShowPwd((v) => !v)}
-                    aria-label={showPwd ? "Hide password" : "Show password"}
+                  <span
+                    className="toggle-password"
+                    onClick={() => setShowPwd(!showPwd)}
+                    role="button"
                   >
-                    {showPwd ? (
-                      <svg viewBox="0 0 24 24" width="18" height="18">
-                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M12 9a3 3 0 100 6 3 3 0 000-6z" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    ) : (
-                      <svg viewBox="0 0 24 24" width="18" height="18">
-                        <path d="M2 2l20 20" stroke="currentColor" strokeWidth="1.4" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M17.94 17.94C16.14 19.11 14.11 20 12 20 5 20 1 12 1 12c1.6-3.1 4.25-5.5 7.59-6.8" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M9.88 9.88A3 3 0 0114.12 14.12" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    )}
-                  </button>
+                    {showPwd ? <FaEye /> : <FaEyeSlash />}
+                  </span>
                 </div>
-                <div className="rp-helper">(Must be 8+ Characters)</div>
+
+                {/* Password Strength Indicator */}
+                {password.length > 0 && <PasswordStrengthIndicator />}
+
+                {/* Password Rules Dropdown */}
+                {showPasswordRules && (
+                  <div className="password-rules-dropdown">
+                    <div className="password-rules-header">
+                      <h4>Password must contain:</h4>
+                      <div className={`password-strength ${passwordStrength.strength}`}>
+                        {passwordStrength.strength === 'weak' && 'Weak'}
+                        {passwordStrength.strength === 'moderate' && 'Moderate'}
+                        {passwordStrength.strength === 'strong' && 'Strong'}
+                      </div>
+                    </div>
+                    <ul className="password-rules-list">
+                      {passwordRules.map((rule) => {
+                        const satisfied = rule.validator(password);
+                        return (
+                          <li key={rule.id} className={`password-rule ${satisfied ? 'satisfied' : 'unsatisfied'}`}>
+                            <span className="rule-icon">
+                              {satisfied ? <FaCheck /> : <FaCheck />}
+                            </span>
+                            <span className="rule-text">{rule.text}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
               </div>
 
-              <div className="rp-field">
-                <label className="sr-only">Confirm New Password</label>
-                <div className="rp-input-icon">
+              <div className="input-wrapper password-wrapper">
+                <div className="password-container">
                   <input
                     type={showConfirm ? "text" : "password"}
                     placeholder="Confirm New Password"
@@ -223,56 +288,49 @@ export default function ResetPassword({ isOpen, onClose, onContinueToLogin }) {
                       setConfirm(e.target.value);
                       if (pwdError) setPwdError("");
                     }}
-                    className="rp-input rp-input-pill"
-                    aria-label="Confirm new password"
+                    className={`input-field ${pwdError ? "input-error" : ""} ${
+                      confirm.length > 0 && confirm === password ? "input-valid" : ""
+                    }`}
+                    disabled={isSubmitting}
                   />
-                  <button
-                    type="button"
-                    className="rp-eye"
-                    onClick={() => setShowConfirm((v) => !v)}
-                    aria-label={showConfirm ? "Hide confirmation" : "Show confirmation"}
+                  <span
+                    className="toggle-password"
+                    onClick={() => setShowConfirm(!showConfirm)}
+                    role="button"
                   >
-                    {showConfirm ? (
-                      <svg viewBox="0 0 24 24" width="18" height="18">
-                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M12 9a3 3 0 100 6 3 3 0 000-6z" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    ) : (
-                      <svg viewBox="0 0 24 24" width="18" height="18">
-                        <path d="M2 2l20 20" stroke="currentColor" strokeWidth="1.4" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M17.94 17.94C16.14 19.11 14.11 20 12 20 5 20 1 12 1 12c1.6-3.1 4.25-5.5 7.59-6.8" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M9.88 9.88A3 3 0 0114.12 14.12" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    )}
-                  </button>
+                    {showConfirm ? <FaEye /> : <FaEyeSlash />}
+                  </span>
                 </div>
               </div>
 
-              {pwdError && <div className="rp-error">{pwdError}</div>}
+              {pwdError && <small className="error-text">{pwdError}</small>}
 
-              <button type="submit" className="rp-btn rp-btn-primary">Reset Password</button>
+              <button 
+                type="submit" 
+                className="reset-btn primary"
+                disabled={isSubmitting || (passwordStrength.strength === 'weak' && password.length > 0)}
+              >
+                {isSubmitting ? "RESETTING..." : "RESET PASSWORD"}
+              </button>
             </form>
           )}
 
           {step === 3 && (
-            <div className="rp-success">
-              <div className="rp-success-icon" aria-hidden>
-                <svg viewBox="0 0 24 24" width="36" height="36">
-                  <circle cx="12" cy="12" r="10" fill="#06a84b" />
-                  <path d="M9 12.5l1.8 1.8L15 10.1" stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+            <div className="reset-success">
+              <div className="success-icon">
+                <FaCheck />
               </div>
-              <h3 className="rp-success-title">Password Successfully Reset</h3>
-              <p className="rp-success-sub">You can now login with your new password</p>
+              <h3 className="success-title">Password Successfully Reset!</h3>
+              <p className="success-subtext">You can now login with your new password</p>
 
               <button
-                className="rp-btn rp-btn-primary"
+                className="reset-btn primary"
                 onClick={() => {
                   onClose?.();
                   onContinueToLogin?.();
                 }}
               >
-                Continue to Login
+                CONTINUE TO LOGIN
               </button>
             </div>
           )}
