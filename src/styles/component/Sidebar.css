@@ -1,7 +1,7 @@
 .sidebar {
   width: 230px;
   height: 100vh;
-  background-color: #ffe3e3;
+  background-color: var(--color-card);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -9,7 +9,7 @@
   position: fixed;
   left: 0;
   top: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-main);
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -29,9 +29,35 @@
 .sidebar-title {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #d84343;
+  color: var(--color-primary);
   margin-top: 8px;
   letter-spacing: 1px;
+  font-family: var(--font-heading);
+}
+
+/* Admin User Info */
+.admin-user-info {
+  text-align: center;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: var(--color-bg);
+  border-radius: var(--radius);
+  width: 100%;
+}
+
+.admin-welcome {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  margin: 0 0 4px 0;
+  font-family: var(--font-heading);
+}
+
+.admin-email {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  margin: 0;
+  font-family: var(--font-main);
 }
 
 .sidebar-menu {
@@ -45,20 +71,21 @@
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  color: #444;
+  color: var(--color-dark);
   padding: 10px 12px;
-  border-radius: 10px;
-  transition: all 0.3s ease;
+  border-radius: var(--radius);
+  transition: var(--transition);
+  font-family: var(--font-main);
 }
 
 .sidebar-link:hover {
-  background-color: #ffd1d1;
-  color: #b83232;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
 }
 
 .sidebar-link.active {
-  background-color: #ffbebe;
-  color: #a12222;
+  background-color: var(--color-primary);
+  color: var(--color-light);
   font-weight: 600;
 }
 
@@ -76,26 +103,27 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #555;
+  color: var(--color-dark);
   font-size: 0.95rem;
   padding: 8px 12px;
-  border-radius: 10px;
-  transition: all 0.3s ease;
+  border-radius: var(--radius);
+  transition: var(--transition);
+  font-family: var(--font-main);
 }
 
 .sidebar-btn:hover {
-  background-color: #ffe5e5;
-  color: #b83232;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
 }
 
 .sidebar-btn.logout {
-  color: #444;
+  color: var(--color-dark);
   font-weight: 600;
 }
 
 .sidebar-btn.logout:hover {
-  background-color: #ffe5e5;
-  color: #b83232;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
 }
 
 /* Sidebar Header Alignment */
@@ -122,7 +150,8 @@
 .sidebar-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #222;
+  color: var(--color-dark);
   margin: 0;
   white-space: nowrap;
+  font-family: var(--font-heading);
 }
