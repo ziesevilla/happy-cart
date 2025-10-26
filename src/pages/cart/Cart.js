@@ -1,10 +1,28 @@
+// src/pages/cart/Cart.js
 import React, { useState, useMemo } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../../styles/pages/Cart.css";
 import { mockDB } from "../../assets/data/mockDatabase";
 
 function Cart() {
-  const [cartItems, setCartItems] = useState(mockDB.cartItems);
+  // Get current user's cart (for demo, using user ID 1)
+  const currentUserId = 1;
+  const userCart = mockDB.carts[currentUserId] || [];
+  
+  // Convert cart data to display format
+  const initialCartItems = userCart.map(cartItem => {
+    const product = mockDB.products.find(p => p.id === cartItem.productId);
+    return {
+      id: cartItem.productId,
+      name: product?.name || 'Unknown Product',
+      price: product?.price || 0,
+      image: product?.image || '',
+      quantity: cartItem.quantity,
+      selected: true
+    };
+  });
+
+  const [cartItems, setCartItems] = useState(initialCartItems);
   const [shipping, setShipping] = useState("Standard Delivery");
   const [promoCode, setPromoCode] = useState("");
   const [isApplyingPromo, setIsApplyingPromo] = useState(false);
@@ -113,7 +131,6 @@ function Cart() {
 
   return (
     <div className="cart-page">
-      {/* Removed the header container and integrated title into content */}
       <div className="cart-content">
         {/* LEFT SIDE: Cart Items */}
         <section className="cart-items-section">

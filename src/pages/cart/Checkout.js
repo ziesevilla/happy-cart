@@ -1,17 +1,26 @@
+// src/pages/cart/Checkout.js
 import React, { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import "../../styles/pages/Checkout.css";
 import { mockDB } from "../../assets/data/mockDatabase";
 
 function Checkout() {
-  const navigate = useNavigate(); // ✅ MOVED TO TOP
+  const navigate = useNavigate();
   const location = useLocation();
   
-  const { address, paymentMethods, items: initialItems } = mockDB.checkoutData;
-  
-  // Get cart items from navigation state or fallback to mock data
-  const cartItems = location.state?.cartItems || initialItems;
-  const cartTotal = location.state?.total || initialItems.reduce((acc, i) => acc + i.price * i.quantity, 0);
+  // Get cart items from navigation state
+  const cartItems = location.state?.cartItems || [];
+  const cartTotal = location.state?.total || 0;
+
+  // Use address from mockDB
+  const address = mockDB.addresses.find(addr => addr.isDefault) || mockDB.addresses[0];
+
+  // Mock payment methods
+  const paymentMethods = [
+    { id: "cod", name: "Cash on Delivery", icon: "💵", fee: 0 },
+    { id: "gcash", name: "GCash", icon: "📱", fee: 0 },
+    { id: "card", name: "Credit/Debit Card", icon: "💳", fee: 10 }
+  ];
 
   const [selectedPayment, setSelectedPayment] = useState("cod");
   const [orderItems, setOrderItems] = useState(cartItems);
@@ -43,7 +52,7 @@ function Checkout() {
     }));
   };
 
-  // ✅ Place order handler - FIXED: navigate is now available
+  // ✅ Place order handler
   const handlePlaceOrder = async () => {
     if (orderItems.length === 0) {
       alert("Your cart is empty");
@@ -59,7 +68,7 @@ function Checkout() {
       // Get payment method name
       const paymentMethodName = paymentMethods.find(method => method.id === selectedPayment)?.name || selectedPayment;
       
-      // Here you would typically send the order to your backend
+      // Create order data
       const orderData = {
         items: orderItems,
         paymentMethod: paymentMethodName,
@@ -74,7 +83,7 @@ function Checkout() {
       
       console.log("Order placed:", orderData);
       
-      // ✅ FIXED: navigate is now available in this scope
+      // Navigate to confirmation
       navigate("/order-confirmation", { 
         state: { 
           orderNumber: `ORD-${Date.now()}`,
@@ -184,12 +193,10 @@ function Checkout() {
               <div className="address-details">
                 <div className="address-header">
                   <strong>{address.name}</strong>
-                  <span className="default-badge">Default</span>
+                  {address.isDefault && <span className="default-badge">Default</span>}
                 </div>
-                <p>{address.email}</p>
-                <p>{address.barangay}, {address.municipality}</p>
-                <p>{address.province}, {address.zip}</p>
-                <p>{address.country}</p>
+                <p>{address.contact}</p>
+                <p>{address.address}</p>
               </div>
               <button className="edit-address">Edit</button>
             </div>
@@ -204,10 +211,10 @@ function Checkout() {
             {paymentMethods.map((method) => (
               <label key={method.id} className={`payment-option ${selectedPayment === method.id ? 'selected' : ''}`}>
                 <div className="payment-info">
-                  <img src={method.icon} alt={method.name} />
+                  <span className="payment-icon">{method.icon}</span>
                   <div>
                     <div className="payment-name">{method.name}</div>
-                    {method.fee && <div className="payment-fee">Fee: ₱{method.fee}</div>}
+                    {method.fee > 0 && <div className="payment-fee">Fee: ₱{method.fee}</div>}
                   </div>
                 </div>
                 <input

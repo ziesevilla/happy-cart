@@ -1,3 +1,4 @@
+// src/pages/cart/OrderConfirmation.js
 import React from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import "../../styles/pages/OrderConfirmation.css";
@@ -10,13 +11,28 @@ function OrderConfirmation() {
   // Get order data from navigation state or use mock data
   const orderData = location.state?.orderData || {
     orderNumber: `ORD-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
-    items: mockDB.checkoutData.items,
-    shippingAddress: mockDB.checkoutData.address,
+    items: [
+      {
+        id: 1,
+        name: "Classic Tee",
+        price: 499,
+        quantity: 2,
+        image: mockDB.products[0]?.image || ""
+      },
+      {
+        id: 2,
+        name: "Slim Fit Jeans",
+        price: 1299,
+        quantity: 1,
+        image: mockDB.products[1]?.image || ""
+      }
+    ],
+    shippingAddress: mockDB.addresses.find(addr => addr.isDefault) || mockDB.addresses[0],
     paymentMethod: "Cash on Delivery",
-    subtotal: 2450.00,
+    subtotal: 2297.00,
     discount: 16.00,
     shippingFee: 50.00,
-    total: 2484.00,
+    total: 2331.00,
     estimatedDelivery: "Dec 28, 2024"
   };
 
@@ -78,10 +94,8 @@ function OrderConfirmation() {
               </div>
               <div className="address-info">
                 <p><strong>{shippingAddress.name}</strong></p>
-                <p>{shippingAddress.email}</p>
-                <p>{shippingAddress.barangay}, {shippingAddress.municipality}</p>
-                <p>{shippingAddress.province}, {shippingAddress.zip}</p>
-                <p>{shippingAddress.country}</p>
+                <p>{shippingAddress.contact}</p>
+                <p>{shippingAddress.address}</p>
               </div>
             </div>
 
@@ -224,7 +238,7 @@ function OrderConfirmation() {
           <Link to="/products" className="footer-link">
             ← Continue Shopping
           </Link>
-          <Link to="/orders" className="footer-link">
+          <Link to="/profile" className="footer-link">
             View Order History →
           </Link>
         </footer>
