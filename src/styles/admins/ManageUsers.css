@@ -1,60 +1,71 @@
-/* ===== Root Theme Variables (from global.css) ===== */
-:root {
-  --bg: #fdf7f3;
-  --panel: #fff;
-  --accent-1: #ffecec;
-  --accent-2: #ffdfe0;
-  --accent-3: #f7bfc0;
-  --text: #222;
-  --muted: #777;
-  --success: #27ae60;
-  --danger: #d32f2f;
-  --info: #2980b9;
-  --shadow: 0 6px 18px rgba(16, 24, 32, 0.06);
-  --radius: 12px;
-  --pad: 18px;
-  font-family: "Poppins", sans-serif;
-}
+/* src/styles/admins/ManageUsers.css */
 
 /* ===== Layout ===== */
 .admin-dashboard-container {
   display: flex;
   min-height: 100vh;
-  background: var(--bg);
-  color: var(--text);
+  background: var(--color-bg);
+  color: var(--color-dark);
+  font-family: var(--font-main);
 }
 
 .admin-main-content {
   flex: 1;
-  margin-left: 250px; /* ensure it sits beside the sidebar */
+  margin-left: 250px;
   padding: 30px 40px;
-  background: var(--bg);
+  background: var(--color-bg);
 }
 
 /* ===== Card Header ===== */
 .user-management-card {
-  background: var(--accent-3);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
   border-radius: var(--radius);
-  padding: var(--pad);
+  padding: var(--space-lg);
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  border: 1px solid var(--color-border);
 }
 
 .user-management-header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 15px;
 }
 
 .menu-icon {
   font-size: 20px;
-  color: var(--text);
+  color: var(--color-light);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.menu-icon:hover {
+  color: var(--color-highlight);
 }
 
 .user-management-title {
-  font-size: 20px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-light);
+  font-family: var(--font-heading);
+  margin: 0;
+}
+
+.user-stats {
+  display: flex;
+  gap: 15px;
+  font-size: 0.9rem;
+  color: var(--color-light);
+  font-family: var(--font-accent);
+}
+
+.user-stats span {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
   font-weight: 600;
 }
 
@@ -66,224 +77,307 @@
 }
 
 .tab {
-  background: var(--accent-1);
+  background: rgba(255, 255, 255, 0.2);
   border: none;
   padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: 500;
-  color: var(--text);
+  border-radius: var(--radius);
+  font-weight: 600;
+  color: var(--color-light);
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: var(--transition);
+  font-family: var(--font-accent);
 }
 
 .tab.active {
-  background: var(--accent-3);
-  color: #fff;
+  background: var(--color-light);
+  color: var(--color-primary);
 }
 
 .tab:hover {
-  background: var(--accent-2);
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
 }
 
 /* ===== Customer Table Section ===== */
 .customer-list-section {
-  background: var(--panel);
+  background: var(--color-light);
   border-radius: var(--radius);
   margin-top: 25px;
   padding: 25px;
   box-shadow: var(--shadow);
+  border: 1px solid var(--color-border);
 }
 
 .customer-list-title {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 700;
   margin-bottom: 18px;
+  color: var(--color-dark);
+  font-family: var(--font-heading);
 }
 
 /* ===== Table ===== */
 .customer-table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--panel);
+  background: var(--color-light);
+  font-family: var(--font-main);
 }
 
 .customer-table th {
-  background: var(--accent-1);
+  background: var(--color-bg);
   padding: 14px 12px;
   text-align: left;
-  color: var(--text);
-  font-weight: 600;
-  border-bottom: 1px solid var(--accent-2);
+  color: var(--color-dark);
+  font-weight: 700;
+  border-bottom: 2px solid var(--color-border);
+  font-family: var(--font-accent);
+  font-size: 0.95rem;
 }
 
 .customer-table td {
   padding: 14px 12px;
-  border-bottom: 1px solid var(--accent-2);
-  color: var(--text);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-dark);
+  font-size: 0.9rem;
 }
 
 .customer-table tr:hover {
-  background: var(--accent-1);
+  background: var(--color-bg);
 }
 
 .no-data {
   text-align: center;
-  color: var(--muted);
-  padding: 20px 0;
+  color: var(--color-muted);
+  padding: 30px 0;
+  font-style: italic;
+}
+
+/* User info cells */
+.user-name-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.user-address {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.order-count {
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-primary);
+  font-family: var(--font-accent);
 }
 
 /* ===== Action Buttons ===== */
 .actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
 .btn {
   border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-size: 14px;
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 0.8rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  color: #fff;
-  font-weight: 500;
-}
-
-.btn.deactivate {
-  background: #f59e0b; /* amber accent */
-}
-
-.btn.suspend {
-  background: var(--danger);
-}
-
-.btn.reset {
-  background: var(--info);
+  transition: var(--transition);
+  color: var(--color-light);
+  font-weight: 600;
+  font-family: var(--font-accent);
+  white-space: nowrap;
 }
 
 .btn:hover {
-  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
-/* ===== Responsive Layout ===== */
-@media (max-width: 768px) {
-  .admin-main-content {
-    margin-left: 0;
-    padding: 20px;
-  }
+.btn.deactivate {
+  background: var(--color-warning);
 }
 
-/* ===== Base Layout ===== */
-.admin-dashboard-container {
-  display: flex;
-  height: 100vh;
-  background-color: #f8f3f2; /* Light pinkish-beige */
-  font-family: "Poppins", sans-serif;
+.btn.suspend {
+  background: var(--color-error);
+}
+
+.btn.reset {
+  background: var(--color-info);
+}
+
+.btn.delete {
+  background: var(--color-dark);
+}
+
+.btn.activate {
+  background: var(--color-success);
+}
+
+.btn.unsuspend {
+  background: var(--color-info);
+}
+
+/* ===== User Status Row Styles ===== */
+.row-deactivated {
+  background-color: var(--color-border) !important;
+  color: var(--color-muted);
+  opacity: 0.7;
+}
+
+.row-suspended {
+  background-color: rgba(220, 53, 69, 0.1) !important;
+  color: var(--color-error);
+}
+
+.status-text {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: var(--color-muted);
+  margin-top: 3px;
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-text.red {
+  color: var(--color-error);
 }
 
 /* ===== Add User Popup ===== */
 .add-user-popup-overlay {
   position: fixed;
   inset: 0;
-  z-index: 999;
+  z-index: 2000;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* The blurred background only for popup */
 .add-user-popup-blur {
   position: absolute;
   inset: 0;
   backdrop-filter: blur(6px);
-  background: rgba(255, 245, 247, 0.5);
+  background: rgba(255, 255, 255, 0.7);
   z-index: 1;
 }
 
-/* The actual popup container */
 .add-user-popup-container {
   position: relative;
   z-index: 2;
-  background-color: #f7c8d3; /* Soft rose-pink */
-  border-radius: 16px;
-  width: 400px;
-  padding: 20px 30px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  background: var(--color-light);
+  border-radius: var(--radius);
+  width: 450px;
+  max-width: 90vw;
+  padding: 25px 30px;
+  box-shadow: var(--shadow-lg);
   animation: fadeIn 0.3s ease;
+  border: 1px solid var(--color-border);
 }
 
 /* ===== Header ===== */
 .add-user-popup-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  position: relative;
+  gap: 15px;
+  margin-bottom: 15px;
 }
 
 .back-arrow {
   font-size: 1.4rem;
   font-weight: bold;
-  color: black;
+  color: var(--color-dark);
   cursor: pointer;
+  transition: var(--transition);
+  padding: 5px;
+}
+
+.back-arrow:hover {
+  color: var(--color-primary);
+  transform: scale(1.1);
 }
 
 .add-user-popup-header h3 {
-  flex: 1;
-  text-align: center;
   margin: 0;
-  color: black;
+  color: var(--color-dark);
   font-weight: 700;
-  letter-spacing: 1px;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
 }
 
 .header-divider {
   border: none;
-  border-top: 1px solid #c98fa6;
-  margin: 10px 0 15px 0;
+  border-top: 1px solid var(--color-border);
+  margin: 0 0 20px 0;
 }
 
 /* ===== Form ===== */
 .add-user-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .add-user-form label {
   font-weight: 600;
-  color: black;
+  color: var(--color-dark);
+  font-size: 0.9rem;
+  font-family: var(--font-accent);
 }
 
 .add-user-form input {
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid #d6a4b3;
-  background-color: #fbe9ed;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  background: var(--color-light);
   outline: none;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  font-family: var(--font-main);
+  transition: var(--transition);
 }
 
 .add-user-form input:focus {
-  border-color: #c8728b;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(216, 100, 128, 0.1);
+}
+
+.add-user-form input::placeholder {
+  color: var(--color-muted);
 }
 
 /* ===== Button ===== */
 .add-user-btn {
-  background-color: #e89db2;
+  background: var(--color-primary);
   border: none;
-  border-radius: 8px;
-  padding: 10px;
-  color: black;
-  font-weight: bold;
+  border-radius: var(--radius);
+  padding: 12px;
+  color: var(--color-light);
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition);
   margin-top: 10px;
-  box-shadow: 0 2px 4px rgba(100, 0, 0, 0.1);
+  font-family: var(--font-accent);
+  font-size: 1rem;
 }
 
 .add-user-btn:hover {
-  background-color: #e17c9d;
+  background: var(--color-secondary);
   transform: translateY(-1px);
+  box-shadow: var(--shadow);
 }
 
 /* ===== Animation ===== */
@@ -298,38 +392,71 @@
   }
 }
 
-/* ===== User Status Row Styles ===== */
-.row-deactivated {
-  background-color: #e0e0e0 !important;
-  color: #555;
-  opacity: 0.7;
-  filter: blur(0.3px);
+/* ===== Responsive Layout ===== */
+@media (max-width: 980px) {
+  .admin-main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+  
+  .user-management-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .user-stats {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 }
 
-.row-suspended {
-  background-color: #ffcccc !important;
-  color: #660000;
-  opacity: 0.7;
-  filter: blur(0.3px);
+@media (max-width: 768px) {
+  .customer-table {
+    font-size: 0.85rem;
+  }
+  
+  .customer-table th,
+  .customer-table td {
+    padding: 10px 8px;
+  }
+  
+  .actions {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .btn {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+  
+  .add-user-popup-container {
+    padding: 20px;
+    width: 90vw;
+  }
 }
 
-.status-text {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: bold;
-  color: #777;
-  margin-top: 3px;
-}
-
-.status-text.red {
-  color: #c0392b;
-}
-
-/* ===== Button State Overrides ===== */
-.btn.activate {
-  background: #27ae60; /* green for reactivation */
-}
-
-.btn.unsuspend {
-  background: #2980b9; /* blue for unsuspend */
+@media (max-width: 480px) {
+  .admin-main-content {
+    padding: 15px;
+  }
+  
+  .customer-list-section {
+    padding: 15px;
+  }
+  
+  .customer-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .user-management-tabs {
+    flex-direction: column;
+  }
+  
+  .tab {
+    text-align: center;
+  }
 }
