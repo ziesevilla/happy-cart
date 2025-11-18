@@ -1,0 +1,649 @@
+/* ================================================== */
+/* =================== HOME PAGE STYLES ============ */
+/* ================================================== */
+
+.home-page {
+  width: 100%;
+  overflow-x: hidden;
+  background-color: var(--color-bg);
+}
+
+/* ================================================== */
+/* ================= SECTION STYLES ================ */
+/* ================================================== */
+
+.home-page section {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.section-header {
+  margin-bottom: 3rem;
+  text-align: center;
+  padding: 0 2rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 0.5rem;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--color-muted);
+  font-family: var(--font-main);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ================================================== */
+/* ================= PROMO BANNER =================== */
+/* ================================================== */
+
+.promo-section {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  width: 100%;
+  margin: 2rem 0 0 0; /* Added top margin for breathing space */
+  padding: 1.2rem 0; /* Slightly reduced padding for single line */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.promo-banner {
+  text-align: center;
+  padding: 0 2rem;
+  color: var(--color-light);
+  font-family: var(--font-accent);
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: row; /* Changed to row for single line */
+  justify-content: center;
+  align-items: center;
+  gap: 1rem; /* Space between elements */
+}
+
+.promo-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: nowrap; /* Prevent wrapping to new line */
+  margin: 0;
+}
+
+.promo-text {
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Space between text elements */
+  margin: 0;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.promo-code {
+  color: var(--color-highlight);
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.promo-subtext {
+  font-size: 0.9rem;
+  font-weight: 400;
+  opacity: 0.9;
+  margin: 0;
+  white-space: nowrap;
+  border-left: 1px solid rgba(255, 255, 255, 0.3); /* Visual separator */
+  padding-left: 1rem;
+}
+
+/* Separator style */
+.promo-separator {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
+}
+
+/* ================================================== */
+/* ================= HERO SECTION =================== */
+/* ================================================== */
+
+.hero-section {
+  padding: 0;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.hero-wrapper {
+  display: flex;
+  width: 100%;
+  height: 85vh;
+  min-height: 750px;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-container {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+
+.hero-container:hover {
+  flex: 1.2;
+}
+
+.hero-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.hero-container:hover img {
+  transform: scale(1.05);
+}
+
+.hero-center {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-center::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(216, 100, 128, 0.3) 0%, rgba(0, 0, 0, 0.4) 100%);
+  z-index: 1;
+}
+
+.hero-text-overlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--color-light);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  font-family: var(--font-heading);
+  letter-spacing: 2px;
+  line-height: 1.2;
+}
+
+
+/* ================================================== */
+/* ================= FEATURED SECTION =============== */
+/* ================================================== */
+
+.featured-section {
+  background: var(--color-light);
+  padding: 4rem 0;
+  width: 100%;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2x2 grid */
+  grid-template-rows: repeat(2, 1fr);
+  gap: 0; /* No gaps between images */
+  width: 100%;
+  height: 80vh; /* Tall featured section */
+  margin: 0;
+}
+
+.featured-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.featured-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.5s ease;
+}
+
+.featured-item:hover .featured-image {
+  transform: scale(1.05);
+  filter: brightness(0.8);
+}
+
+.featured-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.featured-item:hover .featured-overlay {
+  opacity: 1;
+}
+
+/* ================================================== */
+/* ================= TOP PICKS SECTION ============= */
+/* ================================================== */
+
+.top-picks-section {
+  background: var(--color-bg);
+  padding: 4rem 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.top-picks-row {
+  display: flex;
+  width: 100%;
+  margin: 0;
+  flex-wrap: nowrap; /* Prevent wrapping to new line */
+}
+
+.top-pick-item {
+  position: relative;
+  flex: 1; /* Each item takes equal width */
+  min-width: 33.333%; /* 3 items across for 3 top picks */
+  height: 500px;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 0;
+  transition: var(--transition);
+}
+
+.top-pick-item:hover {
+  transform: scale(1.02);
+  z-index: 2;
+}
+
+.top-pick-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  border-radius: 0;
+}
+
+.top-pick-item:hover .top-pick-image {
+  transform: scale(1.05);
+}
+
+.top-pick-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(216, 100, 128, 0.9) 0%, rgba(225, 144, 178, 0.8) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: var(--color-light);
+  border-radius: 0;
+}
+
+.top-pick-item:hover .top-pick-overlay {
+  opacity: 1;
+}
+
+.top-pick-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-heading);
+}
+
+.top-pick-desc {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  font-family: var(--font-main);
+  max-width: 300px;
+}
+
+/* ================================================== */
+/* ================= HAPPY DEALS SECTION ============ */
+/* ================================================== */
+
+.happy-deals-section {
+  background: var(--color-light);
+  padding: 4rem 0;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.marquee {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  padding: 1rem 0;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 1.5rem;
+  width: max-content;
+  animation: scroll-left 35s linear infinite;
+}
+
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.deal-card {
+  position: relative;
+  width: 400px;
+  height: 250px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+  background: var(--color-card);
+}
+
+.deal-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(216, 100, 128, 0.3);
+}
+
+.deal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.deal-card:hover .deal-image {
+  transform: scale(1.1);
+}
+
+.deal-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(216, 100, 128, 0.8) 0%, rgba(225, 144, 178, 0.7) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.deal-card:hover .deal-overlay {
+  opacity: 1;
+}
+
+.deal-button {
+  background: var(--color-light);
+  color: var(--color-primary);
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.deal-button:hover {
+  background: var(--color-primary);
+  color: var(--color-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ================================================== */
+/* ================= HAPPY REVIEWS SECTION ========= */
+/* ================================================== */
+
+.happy-reviews-section {
+  background: var(--color-bg);
+  padding: 4rem 0;
+  width: 100%;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  padding: 0 2rem;
+  max-width: none;
+}
+
+.review-card {
+  background: var(--color-light);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(216, 100, 128, 0.15);
+}
+
+.review-header {
+  position: relative;
+}
+
+.review-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.review-rating {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  color: #ffc107;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.review-content {
+  padding: 1.5rem;
+}
+
+.review-product-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: var(--color-dark);
+  font-family: var(--font-heading);
+}
+
+.review-comment {
+  font-style: italic;
+  color: var(--color-muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-family: var(--font-main);
+}
+
+.review-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-primary);
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+  font-family: var(--font-main);
+}
+
+.user-role {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  font-family: var(--font-main);
+}
+
+/* ================================================== */
+/* ================= RESPONSIVE STYLES ============= */
+/* ================================================== */
+
+@media (max-width: 1024px) {
+  .hero-wrapper {
+    height: 75vh;
+    min-height: 650px;
+  }
+  
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  
+  .section-title {
+    font-size: 2.2rem;
+  }
+  
+  .featured-grid {
+    height: 70vh;
+  }
+  
+  .top-pick-item {
+    min-width: 50%; /* 2 items across on tablet */
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-wrapper {
+    flex-direction: column;
+    height: auto;
+    min-height: auto;
+  }
+  
+  .hero-container {
+    height: 350px; /* Increased height for mobile */
+  }
+  
+  .hero-title {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .featured-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    height: 120vh;
+  }
+  
+  .top-picks-row {
+    flex-direction: column;
+  }
+  
+  .top-pick-item {
+    min-width: 100%;
+    height: 400px;
+  }
+  
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+  
+  .deal-card {
+    width: 320px;
+    height: 200px;
+  }
+  
+  .deal-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 1.8rem;
+  }
+  
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .promo-text {
+    font-size: 1rem;
+  }
+  
+  .featured-grid {
+    height: 100vh;
+  }
+  
+  .deal-card {
+    width: 280px;
+    height: 180px;
+  }
+  
+  .top-pick-item {
+    height: 300px;
+  }
+}

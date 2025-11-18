@@ -1,11 +1,19 @@
-// Login.js
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import "../../styles/auths/Login.css";
-import { FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaUser, FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa";
 import loginImage from "../../assets/images/Login-image.png";
 import ResetPassword from "./ResetPassword";
+import mockDB from "../../assets/data/mockDatabase"; 
+import { loginStart, loginSuccess, loginFailure } from "../../store/slices/authSlice";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  const { isAuthenticated, user, loading, error } = useSelector((state) => state.auth);
+
   // ===== State Management =====
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,49 +22,77 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
 
-  // ===== Helper Validation Functions =====
-  const validateEmail = (email) => email.includes("@");
-
-  const validatePassword = (password) => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
-  };
-
-  // ===== Auto-Clear Errors When User Types =====
+  // ===== Auto-clear errors when typing =====
   useEffect(() => {
-    if (email !== "" && errors.email) {
-      setErrors((prev) => ({ ...prev, email: undefined }));
-    }
-    if (password !== "" && errors.password) {
-      setErrors((prev) => ({ ...prev, password: undefined }));
-    }
-    if (password === "") {
-      setErrors((prev) => ({ ...prev, password: undefined }));
-    }
+    if (email && errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
+    if (password && errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
   }, [email, password]);
 
-  // ===== Form Submit Handler =====
+  // ===== Redirect if already authenticated =====
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
+
+  // ===== Validate Login Against mockDatabase =====
   const handleLogin = (e) => {
     e.preventDefault();
     const newErrors = {};
     setSuccessMessage("");
+    dispatch(loginFailure(null)); // Clear any previous Redux errors
 
-    if (!validateEmail(email)) {
-      newErrors.email = "Please enter a valid email containing '@'.";
+    if (!email) newErrors.email = "Please enter your email.";
+    if (!password) newErrors.password = "Please enter your password.";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
     }
 
-    if (!validatePassword(password)) {
-      newErrors.password =
-        "Password must have 8+ characters, uppercase, lowercase, number, and special character.";
+    dispatch(loginStart());
+
+    // ✅ Find user in mock database
+    const user = mockDB.users.find((acc) => acc.email === email);
+
+    if (!user) {
+      setErrors({ email: "Account not found. Please sign up first." });
+      dispatch(loginFailure("Account not found. Please sign up first."));
+      return;
     }
 
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      setSuccessMessage("✅ Login successful! Redirecting...");
-      setTimeout(() => console.log("Redirecting to dashboard..."), 1500);
+    if (user.password !== password) {
+      setErrors({ password: "Incorrect password. Please try again." });
+      dispatch(loginFailure("Incorrect password. Please try again."));
+      return;
     }
+
+    // ✅ Login successful - Save user globally using Redux (remove sensitive data)
+    const userData = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role || 'customer'
+
+    };
+
+    const token = `mock-jwt-token-${user.id}-${Date.now()}`;
+
+    dispatch(loginSuccess({ 
+      user: userData,
+      token: token
+    }));
+
+    // ✅ Success feedback
+    setSuccessMessage("✅ Login successful! Redirecting...");
+    setTimeout(() => {
+      navigate("/"); // Redirect to home page
+    }, 1500);
+  };
+
+  // ===== Redirect to Signup Page =====
+  const handleCreateAccount = () => {
+    navigate("/auth/signup");
   };
 
   const handleContinueToLogin = () => setShowResetModal(false);
@@ -79,9 +115,7 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {errors.email && (
-                <small className="error-text">{errors.email}</small>
-              )}
+              {errors.email && <small className="error-text">{errors.email}</small>}
             </div>
 
             {/* ===== Password Input ===== */}
@@ -104,11 +138,8 @@ const Login = () => {
                 </span>
               </div>
 
-              {/* Aligned error message under password field */}
               {errors.password && (
-                <small className="error-text password-error">
-                  {errors.password}
-                </small>
+                <small className="error-text password-error">{errors.password}</small>
               )}
             </div>
 
@@ -122,15 +153,32 @@ const Login = () => {
             </button>
 
             {/* ===== Login Button ===== */}
-            <button type="submit" className="login-button">
-              LOGIN <FaUser className="login-icon" />
+            <button 
+              type="submit" 
+              className="login-button"
+              disabled={loading}
+            >
+              {loading ? "LOGGING IN..." : "LOGIN"} <FaUser className="login-icon" />
             </button>
 
+            {/* ===== Show Redux error if any ===== */}
+            {error && <p className="error-text redux-error">{error}</p>}
+
             {/* ===== Success Message ===== */}
-            {successMessage && (
-              <p className="success-text">{successMessage}</p>
-            )}
+            {successMessage && <p className="success-text">{successMessage}</p>}
           </form>
+
+          {/* ===== Create Account Section ===== */}
+          <div className="create-account-section">
+            <hr className="account-divider" />
+            <p className="create-account-text">Don't have an account?</p>
+            <button 
+              className="create-account-button"
+              onClick={handleCreateAccount}
+            >
+              CREATE ACCOUNT <FaArrowRight className="arrow-icon" />
+            </button>
+          </div>
         </div>
       </div>
 
