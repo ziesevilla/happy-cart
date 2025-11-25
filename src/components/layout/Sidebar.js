@@ -10,7 +10,7 @@ import {
   FaQuestionCircle,
   FaSignOutAlt,
 } from "react-icons/fa";
-import "../../styles/component/Sidebar.css";
+import "../../styles/components/Sidebar.css";
 import happyCartLogo from "../../assets/images/happy-cart.png";
 import { logout } from "../../store/slices/authSlice"; // Import logout action
 

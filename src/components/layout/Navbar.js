@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import "../../styles/component/Navbar.css";
+import "../../styles/components/Navbar.css";
 import logo from "../../assets/images/happy-cart.png";
 import { Link } from "react-router-dom";
 import { 

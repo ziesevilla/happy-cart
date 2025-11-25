@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import "../../styles/component/ShopNow.css";
+import "../../styles/components/ShopNow.css";
 
 const ShopNow = ({
   href = "/products",
